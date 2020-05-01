@@ -1,0 +1,26 @@
+{
+  "name": "BeachQuality",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.2.1",
+    "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.11",
+    "nodemon": "^2.0.3",
+    "react-native-gesture-handler": "^1.6.1",
+    "react-native-reanimated": "^1.8.0",
+    "react-native-safe-area-context": "^0.7.3",
+    "react-native-screens": "^2.7.0"
+  },
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node index",
+    "app": "nodemon index",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run app\" \"npm run client\""
+  }
+}
