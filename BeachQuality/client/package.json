@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.6",
+    "axios": "^0.19.2",
     "expo": "~37.0.3",
     "native-base": "^2.13.12",
     "react": "~16.9.0",
@@ -26,5 +27,5 @@
     "babel-preset-expo": "~8.1.0"
   },
   "private": true,
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:4000"
 }

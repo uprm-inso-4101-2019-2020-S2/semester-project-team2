@@ -1,31 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import axios from 'axios';
+
 export default function App() {
-  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
+  // useEffect(() => {
+  //   fetch('https://polar-cliffs-81766.herokuapp.com/api/items')
+  //     .then(response => setData(response))
+  //     .catch((error) => console.error(error))
+  //     .finally(() => setLoading(false))
+  // }, []);
   useEffect(() => {
-    callBackendAPI()
-      .then(res => {
-        setData(res);
-      })
-      .catch(err => console.log(err));
-  }, [data]);
+    axios.get('http://10.0.0.27:4000/api/beach')
+      .then(response => setData(response.data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const callBackendAPI = async () => {
-    const response = await fetch("/express_backend");
 
-    const body = await response.json();
+  displayBeaches = () => {
+    // const beaches = data;
+    if (isLoading) {
+      return (<Text>Loading Beaches...</Text>);
+    } else {
+      // console.log(data)
+      return data.map(beach => {
+        return (
+          <View style={styles.beachCard}>
+            <Text>Playa: {beach.name}</Text>
+            <Text>Location: {beach.location}</Text>
+          </View>
+        )
 
-    if (response.status === 200) {
-      return body;
+      });
     }
+  }
 
-    throw Error(body.message);
-  };
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>{data?.express}</Text>
+      <Text style={styles.Header}>Beach Quality Report</Text>
+      <ScrollView>
+        {this.displayBeaches()}
+      </ScrollView>
     </View>
   );
 }
@@ -33,8 +51,35 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  Header: {
+    backgroundColor: '#3498db',
+    color: '#fff',
+    paddingTop: 50,
+    paddingBottom: 25,
+    textAlign: 'center',
+    width: '100%',
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 20
+  },
+  beachCard: {
+    width: 200,
+    borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 10,
+    backgroundColor: '#fff',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   }
 });

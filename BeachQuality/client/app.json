@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Beach Quality Report",
+    "slug": "BeachQualityReport",
     "platforms": [
       "ios",
       "android",
