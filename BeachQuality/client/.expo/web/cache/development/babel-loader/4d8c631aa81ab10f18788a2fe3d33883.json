@@ -1,0 +1,1 @@
+{"ast":null,"code":"export default (function () {\n  return null;\n});","map":{"version":3,"sources":["../../src/environment/DevLoadingView.ts"],"names":[],"mappings":"AACA,gBAAe;AAAA,SAAM,IAAN;AAAA,CAAf","sourcesContent":["// DevLoadingView exists on the JS-side only on iOS\nexport default () => null;\n"],"sourceRoot":""},"metadata":{},"sourceType":"module"}

@@ -6,12 +6,6 @@ export default function App() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('https://polar-cliffs-81766.herokuapp.com/api/items')
-  //     .then(response => setData(response))
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setLoading(false))
-  // }, []);
   useEffect(() => {
     axios.get('http://10.0.0.27:4000/api/beach')
       .then(response => setData(response.data))
@@ -20,7 +14,7 @@ export default function App() {
   }, []);
 
 
-  displayBeaches = () => {
+  const displayBeaches = () => {
     // const beaches = data;
     if (isLoading) {
       return (<Text>Loading Beaches...</Text>);
@@ -28,7 +22,7 @@ export default function App() {
       // console.log(data)
       return data.map(beach => {
         return (
-          <View style={styles.beachCard}>
+          <View style={styles.beachCard} key={beach._id}>
             <Text>Playa: {beach.name}</Text>
             <Text>Location: {beach.location}</Text>
           </View>
@@ -42,7 +36,7 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.Header}>Beach Quality Report</Text>
       <ScrollView>
-        {this.displayBeaches()}
+        { displayBeaches() }
       </ScrollView>
     </View>
   );
