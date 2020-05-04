@@ -5,7 +5,6 @@
   "license": "MIT",
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
-    "@react-navigation/native": "^5.2.1",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -18,9 +17,8 @@
   },
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node index",
     "app": "nodemon index",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run app\" \"npm run client\""
+    "start": "concurrently \"npm run app\" \"npm run client\""
   }
 }
