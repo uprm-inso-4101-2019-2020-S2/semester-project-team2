@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var IP_ADDRESS = \"192.168.0.103\";","map":{"version":3,"sources":["/home/luisfcaro/programming/university-projects/semester-project-team2/BeachQuality/client/constants/index.js"],"names":["IP_ADDRESS"],"mappings":"AAAA,OAAO,IAAMA,UAAU,GAAG,eAAnB","sourcesContent":["export const IP_ADDRESS = \"192.168.0.103\";\n"]},"metadata":{},"sourceType":"module"}
