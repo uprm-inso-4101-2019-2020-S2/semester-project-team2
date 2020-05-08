@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000 || 5000;
 
 // API
-const beachRouter = require("./routes/beach");
+const beachRouter = require("./routes/api/beach");
 
 const server = express();
 

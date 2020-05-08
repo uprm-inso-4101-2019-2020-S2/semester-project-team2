@@ -59,7 +59,7 @@ const Signup = () => {
           </Text>
 
           <Button style={styles.button} rounded success onPress={handleSubmit}>
-            <Text>Go</Text>
+            <Text style={styles.buttonText}>Go</Text>
           </Button>
         </Form>
       </ImageBackground>
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
     resizeMode: "cover"
   },
   title: {
-    marginTop: "10vh",
+    marginTop: 150,
     color: COLORS.WHITE,
     fontSize: 40,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: "20px"
+    marginBottom: 20
   },
   link: {
     color: "orange"
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 10,
     backgroundColor: COLORS.WHITE,
-    minWidth: 200,
-    maxWidth: 300,
+    minWidth: 300,
+    maxWidth: 500,
     borderRadius: 50
   },
   form: {
@@ -105,7 +105,11 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     marginTop: 10,
-    width: 100
+    width: 100,
+
+  },
+  buttonText: {
+    color: COLORS.WHITE
   },
   margin: {
     marginTop: 10

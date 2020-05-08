@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Beach Model
-const Beach = require("../models/beach");
+const Beach = require("../../models/beach");
 
 // @route   GET api/beach
 // @desc    Get all Beach
