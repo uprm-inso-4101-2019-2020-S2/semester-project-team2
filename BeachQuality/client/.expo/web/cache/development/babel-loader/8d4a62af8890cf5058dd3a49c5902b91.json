@@ -1,0 +1,1 @@
+{"ast":null,"code":"IP_ADDRESS = \"http://localhost:4000/api/beach\";","map":{"version":3,"sources":["/home/luisfcaro/programming/university-projects/semester-project-team2/BeachQuality/client/constants/index.js"],"names":["IP_ADDRESS"],"mappings":"AAAAA,UAAU,GAAG,iCAAb","sourcesContent":["IP_ADDRESS = \"http://localhost:4000/api/beach\";\n"]},"metadata":{},"sourceType":"script"}
