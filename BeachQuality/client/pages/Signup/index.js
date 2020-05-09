@@ -4,53 +4,58 @@ import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
 import { useDispatch } from "react-redux";
-
+import { userSelectors } from "react-redux";
+import { userSelctors } from "../../store/selectors";
+import { userActions } from "../../store/actions";
 const Signup = () => {
   const dispatch = useDispatch();
-  const [values, setValues] = useState({
-    err: "",
-    email: "",
-    password: "",
-    cPassword: ""
-  });
-  const handleChange = e => {
-    setValues({
-      ...values,
-      err: false,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cPassword, setCPassword] = useState("");
 
   const handleSubmit = useCallback(() => {
-    console.log(values);
-    const { email, password, cPassword } = values;
-    if (!!email && !!password && !!cPassword) {
-      if (password === cPassword) console.log(values, "success");
+    console.log(email, password, cPassword);
+    if (email && password && cPassword) {
+      if (password === cPassword)
+        dispatch(userActions.registerUser({ email, password }));
       else console.log("Passwords don't match!");
     } else {
       console.log("Can't have empty fields!");
     }
-  });
+  }, [dispatch, email, password, cPassword]);
   return (
     <View style={styles.container}>
       <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
         <Text style={styles.title}>Signup</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
-            <Input name="email" placeholder="Email" onChange={handleChange} />
+            <Input
+              name="email"
+              placeholder="Email"
+              onChangeText={text => {
+                console.log(text);
+                setEmail(text);
+              }}
+            />
           </Item>
-          <Item style={styles.input}>
+          <Item secureTextEntry={true} style={styles.input}>
             <Input
               name="password"
               placeholder="Password"
-              onChange={handleChange}
+              onChangeText={text => {
+                console.log(text);
+                setPassword(text);
+              }}
             />
           </Item>
-          <Item style={styles.input}>
+          <Item secureTextEntry={true} style={styles.input}>
             <Input
               name="cPassword"
               placeholder="Confirm password"
-              onChange={handleChange}
+              onChangeText={text => {
+                console.log(text);
+                setCPassword(text);
+              }}
             />
           </Item>
           <Text style={[styles.link, styles.margin]}>Terms and service</Text>
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover"
   },
   title: {
-    marginTop: 150,
+    marginTop: "20%",
     color: COLORS.WHITE,
     fontSize: 40,
     fontWeight: "bold",
@@ -105,8 +110,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     marginTop: 10,
-    width: 100,
-
+    width: 100
   },
   buttonText: {
     color: COLORS.WHITE

@@ -7,6 +7,7 @@ const port = process.env.PORT || 4000 || 5000;
 
 // API
 const beachRouter = require("./routes/api/beach");
+const userRouter = require("./routes/api/user");
 
 const server = express();
 
@@ -35,6 +36,7 @@ mongoose
 
 // Use Routes
 server.use("/api/beach", beachRouter);
+server.use("/api/user", userRouter);
 
 server.get("/express_backend", (req, res) => {
   res.send({ express: "YOUR BACKEND IS CONNECTED TO REACT" });

@@ -6,6 +6,7 @@
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
     "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
