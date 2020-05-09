@@ -1,3 +1,4 @@
 import * as beachActions from "./beach";
+import * as userActions from "./user";
 
-export { beachActions };
+export { beachActions, userActions };

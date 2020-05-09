@@ -3,6 +3,7 @@ import Beach from "./Beach";
 import Favorites from "./Favorites";
 import Settings from "./Settings";
 import About from "./About";
+import Signup from "./Signup";
 
 //Need to use a selector to switch the name of the Beaches.
 
@@ -26,6 +27,10 @@ const PAGES = {
   ABOUT: {
     TITLE: "About",
     COMPONENT: About
+  },
+  SIGNUP: {
+    TITLE: "Signup",
+    COMPONENT: Signup
   }
 };
 
