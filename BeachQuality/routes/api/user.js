@@ -18,6 +18,15 @@ router.get("/", (req, res) => {
     .catch(err => console.log(err));
 });
 
+// @route   GET api/user/userID
+// @desc    Get user with id equal to userID
+// @access  Public 
+router.get("/:userID", (req, res) => {
+  User.findById(req.params.userID)
+  .then(user => res.json(user))
+  .catch(err => console.log(err));
+});
+
 // @route   POST api/user/register
 // @desc    Create a new User
 // @access  Public
@@ -54,6 +63,19 @@ router.post("/register", (req, res) => {
       });
     }
   });
+});
+
+// @route   POST api/user/userID
+// @desc    Update an existing user 
+// @acceess Public
+router.put("/:userID", (req, res) => {
+  const updUser = req.body;
+  User.findByIdAndUpdate(req.params.userID, updUser)
+  .then(function(){
+    User.findById(req.params.userID)
+    .then(user => res.json(user))
+    .catch(err => console.log(err));
+  })
 });
 
 module.exports = router;

@@ -31,7 +31,7 @@ router.delete("/deleteBeach/:beachID", (req, res) => {
   Beach.findByIdAndDelete(req.params.beachID)
   .then(beach => res.json(beach))
   .catch(err => console.log(err));
-})
+});
 
 
 // @route   POST api/beach/addBeach
