@@ -20,7 +20,7 @@
     "validator": "^13.0.0"
   },
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "client-install": "yarn install --prefix client",
     "app": "nodemon index",
     "client": "npm start --prefix client",
     "start": "concurrently \"npm run app\" \"npm run client\""
