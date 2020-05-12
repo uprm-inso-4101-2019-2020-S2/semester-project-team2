@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Component } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
 import { beachActions } from "../../store/actions";
-import { Card, CardItem, Body, Thumbnail, Left, Right, Col } from "native-base";
+import { Card, CardItem, Body, Thumbnail, Left, Right, Col, Button, Content, Container } from "native-base";
 
 const Home = () => {
   const [isLoading, setLoading] = useState(true);
@@ -53,9 +53,9 @@ const Home = () => {
                     <Left>
                       <Text> {beach.location}</Text>
                     </Left>
-                    <Right>
-                      <Text>Quality: good</Text>
-                    </Right>
+                    <Button bordered success>
+                      <Text style={styles.btntxt}>Quality: Good</Text>
+                    </Button>
                   </CardItem>
                 </Card>
               );
@@ -95,6 +95,11 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingBottom: 0
+  },
+  btntxt: {
+    color:"green",
+    width: 100,
+    textAlign: "center"
   }
 });
 
