@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@expo/vector-icons": "^10.2.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.2.0",
