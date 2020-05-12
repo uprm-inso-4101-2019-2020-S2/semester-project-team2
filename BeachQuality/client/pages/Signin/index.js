@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { userSelectors } from "react-redux";
 import { userSelctors } from "../../store/selectors";
 import { userActions } from "../../store/actions";
-const Signup = ({ navigation }) => {
+const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,10 +15,8 @@ const Signup = ({ navigation }) => {
 
   const handleSubmit = useCallback(() => {
     console.log(email, password, cPassword);
-    if (email && password && cPassword) {
-      if (password === cPassword)
-        dispatch(userActions.registerUser({ email, password }));
-      else console.log("Passwords don't match!");
+    if (email && password) {
+      dispatch(userActions.registerUser({ email, password }));
     } else {
       console.log("Can't have empty fields!");
     }
@@ -26,7 +24,7 @@ const Signup = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
-        <Text style={styles.title}>Signup</Text>
+        <Text style={styles.title}>Signin</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
             <Input
@@ -58,18 +56,14 @@ const Signup = ({ navigation }) => {
               }}
             />
           </Item>
-          <Text style={[styles.text, styles.margin]}>
+          <Text style={[styles.text, styles.margin]}></Text>
+          <Text style={styles.text}>
+            Don't have an account?{" "}
             <Text
               style={styles.link}
-              onPress={() => navigation.navigate("Terms")}
+              onPress={() => navigation.navigate("Signup")}
             >
-              Terms and service
-            </Text>
-          </Text>
-          <Text style={styles.text}>
-            Already have an account?{" "}
-            <Text style={styles.link} onPress={() => navigation.goBack()}>
-              Signin
+              Signup
             </Text>
           </Text>
 
@@ -94,19 +88,19 @@ const styles = StyleSheet.create({
     resizeMode: "cover"
   },
   title: {
-    marginTop: "20%",
+    marginTop: "15%",
     color: COLORS.WHITE,
     fontSize: 40,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 20
+    marginBottom: "5%"
   },
   link: {
     color: "orange"
   },
 
   input: {
-    marginTop: 10,
+    marginTop: "3%",
     backgroundColor: COLORS.WHITE,
     minWidth: 300,
     maxWidth: 500,
@@ -119,7 +113,7 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: "3%",
     width: 100
   },
   buttonText: {
@@ -134,4 +128,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Signup;
+export default Signin;
