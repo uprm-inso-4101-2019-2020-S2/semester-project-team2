@@ -14,6 +14,6 @@ export const registerUser = user => async dispatch => {
 
   await axios
     .post(regUserRef, user)
-    .then(() => dispatch({ type: REGISTER_USER_SUCCESS }))
+    .then(res => dispatch({ type: REGISTER_USER_SUCCESS, payload: res }))
     .catch(err => dispatch({ type: REGISTER_USER_FAILED, payload: err }));
 };
