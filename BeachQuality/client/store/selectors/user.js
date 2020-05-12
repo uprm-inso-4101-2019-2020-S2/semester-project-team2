@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-export const selectUser = state => user || {};
+export const selectUser = state => state.user || {};
 
 export const selectUserLoading = createSelector(selectUser, user => {
   return user.userLoading;
@@ -11,5 +11,5 @@ export const selectUserErr = createSelector(selectUser, user => {
 });
 
 export const selectUserAccount = createSelector(selectUser, user => {
-  return user.account || {};
+  return user.account;
 });
