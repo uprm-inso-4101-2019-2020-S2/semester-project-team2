@@ -16,9 +16,9 @@
     "react-native-screens": "^2.7.0"
   },
   "scripts": {
-    "client-install": "npm install --prefix client",
+    "client-install": "yarn install --prefix client",
     "app": "nodemon index",
-    "client": "npm start --prefix client",
-    "start": "concurrently \"npm run app\" \"npm run client\""
+    "client": "yarn start --prefix client",
+    "start": "concurrently \"yarn run app\" \"yarn run client\""
   }
 }
