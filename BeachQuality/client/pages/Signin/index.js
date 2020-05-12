@@ -21,6 +21,7 @@ const Signin = ({ navigation }) => {
       console.log("Can't have empty fields!");
     }
   }, [dispatch, email, password, cPassword]);
+
   return (
     <View style={styles.container}>
       <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
@@ -31,31 +32,21 @@ const Signin = ({ navigation }) => {
               name="email"
               placeholder="Email"
               onChangeText={text => {
-                console.log(text);
                 setEmail(text);
               }}
             />
           </Item>
-          <Item secureTextEntry={true} style={styles.input}>
+          <Item style={styles.input}>
             <Input
+              secureTextEntry={true}
               name="password"
               placeholder="Password"
               onChangeText={text => {
-                console.log(text);
                 setPassword(text);
               }}
             />
           </Item>
-          <Item secureTextEntry={true} style={styles.input}>
-            <Input
-              name="cPassword"
-              placeholder="Confirm password"
-              onChangeText={text => {
-                console.log(text);
-                setCPassword(text);
-              }}
-            />
-          </Item>
+
           <Text style={[styles.text, styles.margin]}></Text>
           <Text style={styles.text}>
             Don't have an account?{" "}
@@ -117,7 +108,8 @@ const styles = StyleSheet.create({
     width: 100
   },
   buttonText: {
-    color: COLORS.WHITE
+    color: COLORS.WHITE,
+    fontWeight: "bold"
   },
   margin: {
     marginTop: 10

@@ -25,6 +25,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         err: null,
+        account: action.payload,
         userLoading: false
       };
     }
