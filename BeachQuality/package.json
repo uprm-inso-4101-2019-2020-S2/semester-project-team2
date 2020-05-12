@@ -18,7 +18,7 @@
   "scripts": {
     "client-install": "yarn install --prefix client",
     "app": "nodemon index",
-    "client": "yarn start --prefix client",
-    "start": "concurrently \"yarn run app\" \"yarn run client\""
+    "client": "npm start --prefix client",
+    "start": "concurrently \"npm run app\" \"npm run client\""
   }
 }
