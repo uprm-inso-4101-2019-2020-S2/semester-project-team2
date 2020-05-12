@@ -26,7 +26,7 @@ router.get("/:beachID", (req, res) => {
 
 // @route   DELETE api/beach/deleteBeach/:beachID
 // @desc    Delete beach with id equal to beachID
-// @access  Private 
+// @access  Private
 router.delete("/deleteBeach/:beachID", (req, res) => {
   Beach.findByIdAndDelete(req.params.beachID)
   .then(beach => res.json(beach))
@@ -53,14 +53,14 @@ router.post('/addBeach', (req, res) => {
 
 // @route   PUT api/beach/:beachID
 // @desc    PUT BeachID
-// @access  Private 
-router.put("/:beachID", (req, res) => {
+// @access  Private
+router.put("/updateBeach/:beachID", (req, res) => {
   const updBeach = req.body;
   Beach.findByIdAndUpdate(req.params.beachID, updBeach)
-    .then(function(){
+    .then(() => {
       Beach.findById(req.params.beachID)
         .then(beach => res.json(beach))
-        .catch(err => console.lig(err))
+        .catch(err => console.log(err))
     })
     .catch(err => console.error(err))
 });
