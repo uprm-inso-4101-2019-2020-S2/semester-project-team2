@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState, useEffect, useCallback, Component } from "react";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
 import { beachActions } from "../../store/actions";
+import { Card, CardItem, Body, Thumbnail, Left, Right, Col, Button, Content, Container } from "native-base";
 
 const Home = () => {
   const [isLoading, setLoading] = useState(true);
@@ -22,24 +23,44 @@ const Home = () => {
   }, [dispatch]);
 
   // Eventually move this to its' own component
+  //We need to change the image witth the data we find
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={styles.Header}>Beach Quality Report</Text>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {beachesLoading ? (
           <Text>Loading...</Text>
         ) : beaches ? (
-          <React.Fragment>
+          <Col style={{ marginTop: 30 }}>
             {beaches.map(beach => {
               return (
-                <View style={styles.beachCard} key={beach._id}>
-                  <Text>Playa: {beach.name}</Text>
-                  <Text>Location: {beach.location}</Text>
-                </View>
+                <Card style={styles.beachCard} key={beach._id}>
+                  <CardItem style={styles.title}>
+                    <Text>{beach.name}</Text>
+                  </CardItem>
+
+                  <CardItem>
+                    <Image
+                      source={{
+                        uri:
+                          "http://cdn.c.photoshelter.com/img-get/I0000x8LjeqlKP0o/s/860/860/Playa-Buye-Cabo-Rojo-P-R-DSC0091.jpg"
+                      }}
+                      style={styles.beachImage}
+                    />
+                  </CardItem>
+                  <CardItem>
+                    <Left>
+                      <Text> {beach.location}</Text>
+                    </Left>
+                    <Button bordered success>
+                      <Text style={styles.btntxt}>Quality: Good</Text>
+                    </Button>
+                  </CardItem>
+                </Card>
               );
             })}
-          </React.Fragment>
+          </Col>
         ) : null}
       </ScrollView>
     </View>
@@ -62,24 +83,23 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 20,
-    marginBottom: 50
+    fontSize: 20
   },
   beachCard: {
+    minWidth: 250
+  },
+  beachImage: {
+    height: 120,
     width: 200,
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5,
-    padding: 10,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+    flex: 1
+  },
+  title: {
+    paddingBottom: 0
+  },
+  btntxt: {
+    color:"green",
+    width: 100,
+    textAlign: "center"
   }
 });
 
