@@ -15,7 +15,7 @@ const PAGES = {
     COMPONENT: Home
   },
   BEACH: {
-    TITLE: "Example Beach",
+    TITLE: "Beach",
     COMPONENT: Beach
   },
   FAVORITES: {

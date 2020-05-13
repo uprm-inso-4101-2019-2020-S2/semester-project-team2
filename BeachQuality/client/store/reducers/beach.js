@@ -2,12 +2,15 @@ import { beachActionTypes } from "../actions/types";
 const {
   FETCH_BEACHES,
   FETCH_BEACHES_FAILED,
-  FETCH_BEACHES_SUCCESS
+  FETCH_BEACHES_SUCCESS,
+  SELECT_CURRENT_BEACH,
+  CLEAR_CURRENT_BEACH
 } = beachActionTypes;
 const initialState = {
   beaches: [],
   beachesLoading: false,
-  err: null
+  err: null,
+  currentBeach: null
 };
 
 const BeachReducer = (state = initialState, action) => {
@@ -33,6 +36,20 @@ const BeachReducer = (state = initialState, action) => {
         ...state,
         beachesLoading: false,
         err: action.payload
+      };
+    }
+
+    case SELECT_CURRENT_BEACH: {
+      return {
+        ...state,
+        currentBeach: action.payload
+      };
+    }
+
+    case CLEAR_CURRENT_BEACH: {
+      return {
+        ...state,
+        currentBeach: null
       };
     }
     default:
