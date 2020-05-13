@@ -7,25 +7,27 @@ import { useDispatch } from "react-redux";
 import { userSelectors } from "react-redux";
 import { userSelctors } from "../../store/selectors";
 import { userActions } from "../../store/actions";
+
 const Signin = ({ navigation }) => {
+
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cPassword, setCPassword] = useState("");
 
   const handleSubmit = useCallback(() => {
-    console.log(email, password, cPassword);
+    console.log(email, password);
     if (email && password) {
-      dispatch(userActions.registerUser({ email, password }));
+      dispatch(userActions.loginUser({ email, password }));
+      navigation.navigate('Home');
     } else {
       console.log("Can't have empty fields!");
     }
-  }, [dispatch, email, password, cPassword]);
+  }, [dispatch, email, password]);
 
   return (
     <View style={styles.container}>
       <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
-        <Text style={styles.title}>Signin</Text>
+        <Text style={styles.title}>Sign in</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
             <Input
