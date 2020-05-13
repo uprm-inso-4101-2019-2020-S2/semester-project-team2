@@ -20,13 +20,17 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
+
         <Stack.Screen name={HOME.TITLE} component={HOME.COMPONENT} />
+    
         <Stack.Screen name={SETTINGS.TITLE} component={SETTINGS.COMPONENT} />
 
         <Stack.Screen name={SIGNIN.TITLE} component={SIGNIN.COMPONENT} />
+        
         <Stack.Screen name={SIGNUP.TITLE} component={SIGNUP.COMPONENT} />
 
         <Stack.Screen name={ABOUT.TITLE} component={ABOUT.COMPONENT} />
+    
         <Stack.Screen name={FAVORITES.TITLE} component={FAVORITES.COMPONENT} />
 
         <Stack.Screen name={TERMS.TITLE} component={TERMS.COMPONENT} />

@@ -1,8 +1,10 @@
 {
-  "hostType": "lan",
-  "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "kw-v3p",
-  "https": true
+
+  "hostType": "lan",
+  "lanType": "ip",
+  "urlRandomness": "dk-3kv",
+  "https": false
+
 }
