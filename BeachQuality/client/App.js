@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
+import { Spinner } from "native-base";
 import Routes from "./routes/";
 import { Provider } from "react-redux";
 import store from "./services/redux";
@@ -29,6 +30,16 @@ export default function App() {
       </Provider>
     );
   } else {
-    return <Text>Loading...</Text>;
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner color="blue" />
+      </View>
+    );
   }
 }
