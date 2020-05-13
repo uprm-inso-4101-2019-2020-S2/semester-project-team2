@@ -28,6 +28,33 @@ import {
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
+const dummyData = [
+  {
+    name: "Balneario/Rincon Town Beach",
+    _id: "1",
+    quality: 30,
+    substance: "Enterococcus",
+    longitude: "18.341000",
+    latitude: "18.341000",
+    waterTemperature: 83,
+    currentWeather: 85,
+    waveHeight: "0.5-1",
+    testedBy: "Harry Rodriguez"
+  },
+  {
+    name: "Steps Beach, Tres Palmas Marine Reserve ",
+    _id: "2",
+    quality: 10,
+    substance: "Enterococcus",
+    longitude: "-67.263000",
+    latitude: "18.347000",
+    waterTemperature: 78,
+    currentWeather: "Partly_Cloudy",
+    waveHeight: "1-2",
+    testedBy: "Harry Rodriguez"
+  }
+];
+
 const Home = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -57,6 +84,14 @@ const Home = ({ navigation }) => {
   const onLogout = useCallback(() => {
     //logout function
   }, [dispatch]);
+
+  const onSelect = useCallback(
+    async beach => {
+      await dispatch(beachActions.setCurrentBeach(beach));
+      navigation.navigate("Beach");
+    },
+    [dispatch]
+  );
 
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
@@ -116,14 +151,14 @@ const Home = ({ navigation }) => {
               <Spinner color="blue" />
             ) : beaches ? (
               <Col style={{ marginTop: 30 }}>
-                {beaches.map(beach => {
+                {dummyData.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
                         <Text>{beach.name}</Text>
                       </CardItem>
 
-                      <CardItem>
+                      <CardItem button onPress={() => onSelect(beach)}>
                         <Image
                           source={{
                             uri:
