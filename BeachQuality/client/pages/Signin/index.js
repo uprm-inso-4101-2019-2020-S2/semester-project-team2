@@ -4,8 +4,8 @@ import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
 import { useDispatch } from "react-redux";
-import { userSelectors } from "react-redux";
-import { userSelctors } from "../../store/selectors";
+import { useSelector } from "react-redux";
+import { userSelectors } from "../../store/selectors";
 import { userActions } from "../../store/actions";
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();

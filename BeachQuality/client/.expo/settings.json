@@ -1,8 +1,8 @@
 {
+  "urlRandomness": "rd-x3k",
   "hostType": "lan",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "bv-r22",
   "https": true
 }

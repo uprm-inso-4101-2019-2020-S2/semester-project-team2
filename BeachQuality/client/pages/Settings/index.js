@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
+import {useSelector} from 'react-redux';
+import{userSelectors} from '../../store/selectors';
 import * as Font from 'expo-font';
-import * as Permissions from 'expo-permissions';
 import{
   Container,
   Header,
@@ -18,16 +19,27 @@ import{
   ListItem,
   Switch
 } from "native-base";
+import * as Permissions from "expo-permissions"
 
 
 const Settings = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const location = useSelector(userSelectors.selectUserLocation);
+  const [locationEnabled, setLocationEnabled] = useState(null)
+  const [isEnabled, setIsEnabled] = useState(true);
   const [isEnabled1, setIsEnabled1] = useState(true);
   const [isEnabled2, setIsEnabled2] = useState(true);
   const notificationSwitch = () => setIsEnabled(previousState => !previousState);
   const locationSwitch = () => setIsEnabled1(previousState => !previousState);
   const darkModeSwitch = () => setIsEnabled2(previousState => !previousState);
 
+  const getStatus = async()=>{
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    setLocationEnabled(status)
+  }
+
+  useEffect(()=>{
+    getStatus()
+  },[])
 
   return (
     <Container>
@@ -59,7 +71,7 @@ const Settings = () => {
             </Body>
             <Switch 
             onValueChange={locationSwitch}
-            value={isEnabled1}
+            value={!!location}
             />
           </ListItem>
           <ListItem>
