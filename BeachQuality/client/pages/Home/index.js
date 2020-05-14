@@ -5,7 +5,7 @@ import React, {
   Component,
   useRef
 } from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
 import { beachActions } from "../../store/actions";
@@ -109,8 +109,7 @@ const Home = ({ navigation }) => {
             <Container style={styles.navLinks}>
               <Button
                 transparent
-                onPress={() => navigation.navigate("Favorites")}
-              >
+                onPress={() => navigation.navigate("Favorites")}>
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <Text>Favorites</Text>
               </Button>
@@ -132,7 +131,7 @@ const Home = ({ navigation }) => {
       >
         <Header style={styles.header}>
           <Button transparent onPress={onOpen}>
-            <MaterialIcons name="menu" size={24} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="menu" size={24}/>
           </Button>
 
           <Body style={{ alignItems: "center" }}>
@@ -140,7 +139,7 @@ const Home = ({ navigation }) => {
           </Body>
 
           <Button transparent onPress={() => navigation.navigate("Settings")}>
-            <MaterialIcons name="settings" size={24} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="settings" size={24} />
           </Button>
         </Header>
         <View
@@ -207,12 +206,18 @@ const styles = StyleSheet.create({
   title: {
     paddingBottom: 0
   },
+
+  uiIcon: {
+    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+  },
+   
   btntxt: {
     color: "green",
     width: 100,
     textAlign: "center"
   },
   navLinks: {
+    padding: 60,
     marginRight: "40%",
     marginTop: 20
   }

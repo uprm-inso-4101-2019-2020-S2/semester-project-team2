@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet, Platform } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   Card,
@@ -24,7 +25,7 @@ const About = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
           </Button>
         </Left>
         <Body>
@@ -38,5 +39,11 @@ const About = ({ navigation }) => {
     </React.Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  uiIcon: {
+    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+  }
+});
 
 export default About;
