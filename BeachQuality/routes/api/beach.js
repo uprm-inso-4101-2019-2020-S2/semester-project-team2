@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 
 // Beach Model
 const Beach = require("../../models/beach");
@@ -50,20 +49,6 @@ router.post("/addBeach", (req, res) => {
     .save()
     .then(beach => res.json(beach))
     .catch(err => console.log(err));
-});
-
-// @route   GET api/beach/fetchWeeklyUpdate
-// @desc    Fetch Weekly Update
-// @access  Private
-router.get("/fetchWeeklyUpdate", async (req, res) => {
-  const beachData = [];
-  const fetchData = await axios
-    .get(
-      "https://mmvk4falrj.execute-api.us-west-2.amazonaws.com/v1/history/lab/4"
-    )
-    .then(res => (beachData = res.data))
-    .catch(err => console.log(err));
-  console.log(beachData);
 });
 
 // @route   PUT api/beach/:beachID
