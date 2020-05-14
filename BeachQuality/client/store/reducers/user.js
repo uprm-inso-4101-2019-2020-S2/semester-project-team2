@@ -3,16 +3,24 @@ const {
   REGISTER_USER,
   REGISTER_USER_FAILED,
   REGISTER_USER_SUCCESS,
+
+  FETCH_USER_LOCATION
+
   LOGIN_USER,
   LOGIN_USER_FAILED,
   LOGIN_USER_SUCCESS
+
 } = userActionTypes;
 
 const initialState = {
   err: null,
   account: null,
   userLoading: false,
+
+  location: null
+
   isAuthenticated: false
+
 };
 
 const userReducer = (state = initialState, action) => {
@@ -43,6 +51,13 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
+
+    case FETCH_USER_LOCATION: {
+
+      return {
+        ...state,
+        location: action.payload
+
     // Login
     case LOGIN_USER: {
       return {
@@ -67,6 +82,7 @@ const userReducer = (state = initialState, action) => {
         userLoading: false,
         isAuthenticated: false,
         err: action.payload
+
       };
     }
 

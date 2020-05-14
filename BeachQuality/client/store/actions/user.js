@@ -7,9 +7,11 @@ const {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILED,
+  FETCH_USER_LOCATION,
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
+
 } = userActionTypes;
 
 
@@ -23,6 +25,12 @@ export const registerUser = user => async dispatch => {
     .catch(err => dispatch({ type: REGISTER_USER_FAILED, payload: err }));
 };
 
+
+export const setLocation = location => async dispatch => {
+  dispatch({type: FETCH_USER_LOCATION, payload: location });
+
+}
+
 // Login Action
 export const loginUser = user => async dispatch => {
   dispatch({ type: LOGIN_USER });
@@ -32,3 +40,4 @@ export const loginUser = user => async dispatch => {
     .then(res => dispatch({ type: LOGIN_USER_SUCCESS, payload: res }))
     .catch(err => dispatch({ type: LOGIN_USER_FAILED, payload: err }));
 };
+

@@ -7,10 +7,11 @@ import store from "./services/redux";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
+
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
-
+ 
   useEffect(() => {
     Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -19,6 +20,7 @@ export default function App() {
     }).then(() => {
       setIsLoading(false);
     });
+
   });
 
   if (!isLoading) {
@@ -30,6 +32,7 @@ export default function App() {
       </Provider>
     );
   } else {
+
     return (
       <View
         style={{
@@ -42,4 +45,5 @@ export default function App() {
       </View>
     );
   }
+
 }
