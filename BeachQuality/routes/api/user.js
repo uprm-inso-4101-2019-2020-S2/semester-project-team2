@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const keys = require("../../services/config/mongo");
 
 // Beach Model
 const User = require("../../models/user");
@@ -24,8 +26,8 @@ router.get("/", (req, res) => {
 // @access  Public
 router.get("/:userID", (req, res) => {
   User.findById(req.params.userID)
-  .then(user => res.json(user))
-  .catch(err => console.log(err));
+    .then(user => res.json(user))
+    .catch(err => console.log(err));
 });
 
 // @route   POST api/user/register
@@ -68,8 +70,8 @@ router.post("/register", (req, res) => {
 // @desc    User Account Login
 // @access  Public
 router.post("/login", (req, res) => {
-
   const { errors, isValid } = validateLoginInput(req.body);
+  const { password } = req.body;
 
   // Check validation
   if (!isValid) {
@@ -82,49 +84,49 @@ router.post("/login", (req, res) => {
     }
 
     // Check password
-    bcrypt.compare(password, user.password)
+    bcrypt
+      .compare(password, user.password)
       .then(isMatch => {
-          if(isMatch){
-            // User Matched
-            // Create JWT Payload
-            const payload = {
-                id: user.id,
-                name: user.name
-            };
-            // Sign Token
-            jwt.sign(
-                payload,
-                keys.secretOrKey,
-                // 1 hour in seconds
-                { expiresIn: 3600},
-                (err, token) => {
-                    res.json({
-                        success: true,
-                        token: "Token: " + token
-                    });
-                }
-            );
-          } else{
-              return res
-                    .status(400)
-                    .json({ passwordincorrect: "Password incorrect"});
-          }
+        if (isMatch) {
+          // User Matched
+          // Create JWT Payload
+          const payload = {
+            id: user.id,
+            name: user.name
+          };
+          // Sign Token
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            // 1 hour in seconds
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Token: " + token
+              });
+            }
+          );
+        } else {
+          return res
+            .status(400)
+            .json({ passwordincorrect: "Password incorrect" });
+        }
       })
       .catch(err => console.error(err));
-    })
-})
+  });
+});
 
 // @route   POST api/user/userID
 // @desc    Update an existing user
 // @acceess Public
 router.put("/:userID", (req, res) => {
   const updUser = req.body;
-  User.findByIdAndUpdate(req.params.userID, updUser)
-  .then(function(){
+  User.findByIdAndUpdate(req.params.userID, updUser).then(function() {
     User.findById(req.params.userID)
-    .then(user => res.json(user))
-    .catch(err => console.log(err));
-  })
+      .then(user => res.json(user))
+      .catch(err => console.log(err));
+  });
 });
 
 module.exports = router;

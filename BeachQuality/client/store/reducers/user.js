@@ -5,7 +5,7 @@ const {
   REGISTER_USER_SUCCESS,
   LOGIN_USER,
   LOGIN_USER_FAILED,
-  LOGIN_USER_SUCCESS,
+  LOGIN_USER_SUCCESS
 } = userActionTypes;
 
 const initialState = {
@@ -47,7 +47,7 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_USER: {
       return {
         ...state,
-        userLoading: true,
+        userLoading: true
       };
     }
 
@@ -56,6 +56,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         err: null,
         isAuthenticated: true,
+        account: action.payload,
         userLoading: false
       };
     }
@@ -71,7 +72,7 @@ const userReducer = (state = initialState, action) => {
 
     default:
       return state;
-    }
+  }
 };
 
 export default userReducer;

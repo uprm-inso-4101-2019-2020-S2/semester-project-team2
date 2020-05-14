@@ -4,25 +4,26 @@ import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
 import { useDispatch } from "react-redux";
-import { userSelectors } from "react-redux";
-import { userSelctors } from "../../store/selectors";
+import { useSelector } from "react-redux";
+import { userSelectors } from "../../store/selectors";
 import { userActions } from "../../store/actions";
 
 const Signin = ({ navigation }) => {
-
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = useCallback(() => {
-    console.log(email, password);
+  const account = useSelector(userSelectors.selectUserAccount);
+  const handleSubmit = useCallback(async () => {
     if (email && password) {
-      dispatch(userActions.loginUser({ email, password }));
-      navigation.navigate('Home');
+      await dispatch(userActions.loginUser({ email, password }));
     } else {
       console.log("Can't have empty fields!");
     }
   }, [dispatch, email, password]);
+
+  useEffect(() => {
+    if (account) navigation.navigate("Home");
+  }, [dispatch, account]);
 
   return (
     <View style={styles.container}>
