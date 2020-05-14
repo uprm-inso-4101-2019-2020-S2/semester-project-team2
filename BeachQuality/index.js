@@ -2,7 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
 const axios = require("axios");
+
+const passport = require('passport');
+
 
 const port = process.env.PORT || 4000 || 5000;
 
@@ -22,8 +26,11 @@ server.use(
 server.use(bodyParser.json());
 server.use(cors());
 
+// Passport config
+require('./services/config/passport')(passport)
+
 // DB config
-const db = require("./config").mongoURI;
+const db = require("./services/config/mongo").mongoURI;
 
 // connect to MongoDB Atlas database
 mongoose
