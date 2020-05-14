@@ -2,7 +2,8 @@ import React, { Component, useState, useEffect } from "react";
 import {useSelector} from 'react-redux';
 import{userSelectors} from '../../store/selectors';
 import * as Font from 'expo-font';
-import{
+import { MaterialIcons } from "@expo/vector-icons";
+import {
   Container,
   Header,
   Title,
@@ -41,12 +42,22 @@ const Settings = () => {
     getStatus()
   },[])
 
+=======
+const Settings = ({ navigation }) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const notificationSwitch = () =>
+    setIsEnabled(previousState => !previousState);
+  const locationSwitch = () => setIsEnabled(previousState => !previousState);
+  const darkModeSwitch = () => setIsEnabled(previousState => !previousState);
+
+
   return (
     <Container>
       <Header>
         <Left>
-          <Button transparent>
-            <Icon name="ios-arrow-back" />
+          <Button transparent onPress={() => navigation.goBack()}>
+            <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
           </Button>
         </Left>
         <Body>
@@ -60,28 +71,34 @@ const Settings = () => {
             <Body>
               <Text>Notifications</Text>
             </Body>
+
             <Switch
               onValueChange={notificationSwitch}
               value={isEnabled}
             />
+
           </ListItem>
           <ListItem>
             <Body>
               <Text>Location Services</Text>
             </Body>
+
             <Switch 
             onValueChange={locationSwitch}
             value={!!location}
             />
+
           </ListItem>
           <ListItem>
             <Body>
               <Text>Dark Mode</Text>
             </Body>
+
             <Switch 
             value={!isEnabled2}
             onValueChange={darkModeSwitch}
             />
+
           </ListItem>
           <ListItem>
             <Body>
@@ -92,6 +109,5 @@ const Settings = () => {
       </Content>
     </Container>
   );
-  
 };
 export default Settings;

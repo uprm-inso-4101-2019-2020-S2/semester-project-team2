@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const axios = require("axios");
+
+const passport = require('passport');
+
+
 const port = process.env.PORT || 4000 || 5000;
 
 // API
@@ -21,8 +26,11 @@ server.use(
 server.use(bodyParser.json());
 server.use(cors());
 
+// Passport config
+require('./services/config/passport')(passport)
+
 // DB config
-const db = require("./config").mongoURI;
+const db = require("./services/config/mongo").mongoURI;
 
 // connect to MongoDB Atlas database
 mongoose
@@ -41,6 +49,13 @@ server.use("/api/user", userRouter);
 server.get("/express_backend", (req, res) => {
   res.send({ express: "YOUR BACKEND IS CONNECTED TO REACT" });
 });
+
+server.get("/getWeeklyUpdate", (req, res) => {
+    return axios.get("https://mmvk4falrj.execute-api.us-west-2.amazonaws.com/v1/history/lab/4")
+                  .then(response => console.log(response.data))
+                  .catch(err => console.log(err));
+});
+
 server.listen(port, () => {
   console.log(`now listening for requests on port: ${port}`);
 });
