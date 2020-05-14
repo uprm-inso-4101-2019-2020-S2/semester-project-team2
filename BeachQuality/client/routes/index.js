@@ -20,7 +20,7 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
-
+        <Stack.Screen name={SETTINGS.TITLE} component={SETTINGS.COMPONENT} />
         <Stack.Screen
           name={HOME.TITLE}
           component={HOME.COMPONENT}

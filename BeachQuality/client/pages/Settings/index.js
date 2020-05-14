@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import * as Font from 'expo-font';
+import * as Permissions from 'expo-permissions';
 import{
   Container,
   Header,
@@ -21,10 +22,11 @@ import{
 
 const Settings = () => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isEnabled1, setIsEnabled1] = useState(true);
+  const [isEnabled2, setIsEnabled2] = useState(true);
   const notificationSwitch = () => setIsEnabled(previousState => !previousState);
-  const locationSwitch = () => setIsEnabled(previousState => !previousState);
-  const darkModeSwitch = () => setIsEnabled(previousState => !previousState);
+  const locationSwitch = () => setIsEnabled1(previousState => !previousState);
+  const darkModeSwitch = () => setIsEnabled2(previousState => !previousState);
 
 
   return (
@@ -47,25 +49,32 @@ const Settings = () => {
               <Text>Notifications</Text>
             </Body>
             <Switch
-              value={true}
               onValueChange={notificationSwitch}
+              value={isEnabled}
             />
           </ListItem>
           <ListItem>
             <Body>
               <Text>Location Services</Text>
             </Body>
-            <Switch value={true}
+            <Switch 
             onValueChange={locationSwitch}
+            value={isEnabled1}
             />
           </ListItem>
           <ListItem>
             <Body>
               <Text>Dark Mode</Text>
             </Body>
-            <Switch value={false}
+            <Switch 
+            value={!isEnabled2}
             onValueChange={darkModeSwitch}
             />
+          </ListItem>
+          <ListItem>
+            <Body>
+              <Text>Version 1.0.0</Text>
+            </Body>
           </ListItem>
         </List>
       </Content>
