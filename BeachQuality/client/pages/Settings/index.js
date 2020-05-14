@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import { StyleSheet, Platform } from 'react-native';
 import { useSelector } from "react-redux";
 import { userSelectors } from "../../store/selectors";
 import * as Font from "expo-font";
@@ -47,7 +48,7 @@ const Settings = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
           </Button>
         </Left>
         <Body>
@@ -88,4 +89,11 @@ const Settings = ({ navigation }) => {
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  uiIcon: {
+    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+  }
+})
+
 export default Settings;
