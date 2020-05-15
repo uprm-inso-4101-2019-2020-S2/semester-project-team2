@@ -19,9 +19,11 @@ import {
 import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
+import { MapView, PROVIDER_GOOGLE} from 'react-native-maps';
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
+  const location = useSelector(userSelectors.selectUserLocation);
 
   const {
     name,
@@ -68,12 +70,13 @@ const Beach = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
           <Content>
-            <Image
-              source={{
-                uri:
-                  "http://cdn.c.photoshelter.com/img-get/I0000x8LjeqlKP0o/s/860/860/Playa-Buye-Cabo-Rojo-P-R-DSC0091.jpg"
+            <MapView
+              provider = {PROVIDER_GOOGLE}
+              style = {styles.map}
+              region = {{
+                longitude: 18.341000,
+                latitude: 18.341000,
               }}
-              style={styles.image}
             />
             <Text style={styles.title}>{name}</Text>
             <Text style={styles.info}>Quality: {calcQuality(quality)}</Text>
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
 
-  image: {
+  map: {
     width: 300,
     height: 180
   },

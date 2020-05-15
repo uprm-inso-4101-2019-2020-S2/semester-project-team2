@@ -29,6 +29,7 @@ import {
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import * as Permissions from "expo-permissions"
 import * as  Location  from 'expo-location';
+//import { MapView, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const dummyData = [
   {
@@ -183,7 +184,6 @@ useEffect(() => {
                             uri:
                               "http://cdn.c.photoshelter.com/img-get/I0000x8LjeqlKP0o/s/860/860/Playa-Buye-Cabo-Rojo-P-R-DSC0091.jpg"
                           }}
-                          style={styles.beachImage}
                         />
                       </CardItem>
                       <CardItem>
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   beachCard: {
     minWidth: 250
   },
-  beachImage: {
+  map: {
     height: 120,
     width: 200,
     flex: 1
