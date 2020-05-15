@@ -19,11 +19,10 @@ import {
 import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
-import { MapView, PROVIDER_GOOGLE} from 'react-native-maps';
+import { MapView } from 'react-native-maps';
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
-  const location = useSelector(userSelectors.selectUserLocation);
 
   const {
     name,
@@ -71,11 +70,10 @@ const Beach = ({ navigation }) => {
         <View style={styles.root}>
           <Content>
             <MapView
-              provider = {PROVIDER_GOOGLE}
-              style = {styles.map}
-              region = {{
-                longitude: 18.341000,
-                latitude: 18.341000,
+             style = {styles.map}
+             region = {{
+              longitude: 18.341000,
+              latitude: 18.341000,
               }}
             />
             <Text style={styles.title}>{name}</Text>
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
 
   map: {
     width: 300,
-    height: 180
+    height: 180,
   },
 
   uiIcon: {
