@@ -5,7 +5,14 @@ import React, {
   Component,
   useRef
 } from "react";
-import { StyleSheet, Text, View, ScrollView, Image, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Platform
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors, userSelectors } from "../../store/selectors";
 import { beachActions, userActions } from "../../store/actions";
@@ -27,39 +34,11 @@ import {
   Spinner
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
-import * as Permissions from "expo-permissions"
-import * as  Location  from 'expo-location';
-
-const dummyData = [
-  {
-    name: "Balneario/Rincon Town Beach",
-    _id: "1",
-    quality: 30,
-    substance: "Enterococcus",
-    longitude: "18.341000",
-    latitude: "18.341000",
-    waterTemperature: 83,
-    currentWeather: 85,
-    waveHeight: "0.5-1",
-    testedBy: "Harry Rodriguez"
-  },
-  {
-    name: "Steps Beach, Tres Palmas Marine Reserve ",
-    _id: "2",
-    quality: 10,
-    substance: "Enterococcus",
-    longitude: "-67.263000",
-    latitude: "18.347000",
-    waterTemperature: 78,
-    currentWeather: "Partly_Cloudy",
-    waveHeight: "1-2",
-    testedBy: "Harry Rodriguez"
-  }
-];
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 
 const Home = ({ navigation }) => {
-  
-  const location = useSelector(userSelectors.selectUserLocation)
+  const location = useSelector(userSelectors.selectUserLocation);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
@@ -67,9 +46,7 @@ const Home = ({ navigation }) => {
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
 
-
   //This needs to be called through a dispatch
-
 
   const onEntry = useCallback(async () => {
     await dispatch(beachActions.getBeaches());
@@ -94,25 +71,26 @@ const Home = ({ navigation }) => {
     },
     [dispatch]
   );
-  
- //Get Location Info
- const getLocationAsync =useCallback(async()=>  {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION); 
-  if (status === 'granted') {
-    dispatch(userActions.toggleLocation(1))
-    const currentLocation = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
- 
-    dispatch(userActions.setLocation(currentLocation))
-   
-  }
 
-},[dispatch,location])
+  //Get Location Info
+  const getLocationAsync = useCallback(async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      dispatch(userActions.toggleLocation(1));
+      const currentLocation = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: true
+      });
 
-useEffect(() => {
+      dispatch(userActions.setLocation(currentLocation));
+    }
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    console.log(beaches);
     onEntry();
     getLocationAsync();
   }, [dispatch]);
-  
+
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
 
@@ -129,7 +107,8 @@ useEffect(() => {
             <Container style={styles.navLinks}>
               <Button
                 transparent
-                onPress={() => navigation.navigate("Favorites")}>
+                onPress={() => navigation.navigate("Favorites")}
+              >
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <Text>Favorites</Text>
               </Button>
@@ -151,7 +130,7 @@ useEffect(() => {
       >
         <Header style={styles.header}>
           <Button transparent onPress={onOpen}>
-            <MaterialIcons style = {styles.uiIcon} name="menu" size={24}/>
+            <MaterialIcons style={styles.uiIcon} name="menu" size={24} />
           </Button>
 
           <Body style={{ alignItems: "center" }}>
@@ -159,7 +138,7 @@ useEffect(() => {
           </Body>
 
           <Button transparent onPress={() => navigation.navigate("Settings")}>
-            <MaterialIcons style = {styles.uiIcon} name="settings" size={24} />
+            <MaterialIcons style={styles.uiIcon} name="settings" size={24} />
           </Button>
         </Header>
         <View
@@ -170,7 +149,7 @@ useEffect(() => {
               <Spinner color="blue" />
             ) : beaches ? (
               <Col style={{ marginTop: 30 }}>
-                {dummyData.map(beach => {
+                {beaches.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
@@ -228,9 +207,9 @@ const styles = StyleSheet.create({
   },
 
   uiIcon: {
-    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+    color: Platform.OS === "ios" ? "#000000" : "#ffffff"
   },
-   
+
   btntxt: {
     color: "green",
     width: 100,

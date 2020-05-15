@@ -13,9 +13,9 @@ export const getBeaches = () => async dispatch => {
 
   await axios
     .get(beachRef)
-    .then(response =>
-      dispatch({ type: FETCH_BEACHES_SUCCESS, payload: response.data })
-    )
+    .then(response => {
+      dispatch({ type: FETCH_BEACHES_SUCCESS, payload: response.data });
+    })
     .catch(err => dispatch({ type: FETCH_BEACHES_FAILED, payload: err }));
 };
 
