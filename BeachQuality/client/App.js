@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+
 import { View, Text } from "react-native";
 import { Spinner } from "native-base";
+
 import Routes from "./routes/";
 import { Provider } from "react-redux";
 import store from "./services/redux";
