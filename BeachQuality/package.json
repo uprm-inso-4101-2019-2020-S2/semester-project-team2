@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
+    "cheerio": "^1.0.0-rc.3",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "expo-font": "^8.1.1",
@@ -27,6 +28,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.7.0",
     "react-redux": "^7.2.0",
+    "underscore": "^1.10.2",
     "validator": "^13.0.0"
   },
   "scripts": {

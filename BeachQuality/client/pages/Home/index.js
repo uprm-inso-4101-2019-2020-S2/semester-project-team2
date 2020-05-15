@@ -30,32 +30,6 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import * as Permissions from "expo-permissions"
 import * as  Location  from 'expo-location';
 
-const dummyData = [
-  {
-    name: "Balneario/Rincon Town Beach",
-    _id: "1",
-    quality: 30,
-    substance: "Enterococcus",
-    longitude: "18.341000",
-    latitude: "18.341000",
-    waterTemperature: 83,
-    currentWeather: 85,
-    waveHeight: "0.5-1",
-    testedBy: "Harry Rodriguez"
-  },
-  {
-    name: "Steps Beach, Tres Palmas Marine Reserve ",
-    _id: "2",
-    quality: 10,
-    substance: "Enterococcus",
-    longitude: "-67.263000",
-    latitude: "18.347000",
-    waterTemperature: 78,
-    currentWeather: "Partly_Cloudy",
-    waveHeight: "1-2",
-    testedBy: "Harry Rodriguez"
-  }
-];
 
 const Home = ({ navigation }) => {
   
@@ -105,13 +79,52 @@ const Home = ({ navigation }) => {
     dispatch(userActions.setLocation(currentLocation))
    
   }
-
 },[dispatch,location])
+
+
+const calcQuality = rating => {
+  if (rating == 'green' ) {
+    return (
+      <Content  style={{color: "green", alignSelf: "flex-end", borderColor:'green', borderWidth: 1, padding: 3, height: 35}} >
+          <Text style={{fontSize: 15, color: "green", textAlign: "right"}}>
+            Good
+          </Text>           
+      </Content>
+      
+    );
+  } else if (rating == 'yellow') {
+    return (
+      <Content  style={{color: "#de8209", alignSelf: "flex-end", borderColor: '#de8209', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "#de8209", textAlign: "right"}}>
+          Medium
+        </Text>           
+      </Content>
+    );
+  } else if (rating == 'red') {
+    return (
+      <Content  style={{color: "red", alignSelf: "flex-end", borderColor:'red', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "red", textAlign: "right"}}>
+           Bad
+         </Text>           
+      </Content>
+    );
+  } else {
+    return (
+      <Content  style={{color: "gray", alignSelf: "flex-end", borderColor:'gray', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "gray", textAlign: "right"}}>
+           Untested
+        </Text>           
+      </Content>
+    );
+  }
+};
+
 
 useEffect(() => {
     onEntry();
     getLocationAsync();
   }, [dispatch]);
+  
   
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
@@ -170,7 +183,7 @@ useEffect(() => {
               <Spinner color="blue" />
             ) : beaches ? (
               <Col style={{ marginTop: 30 }}>
-                {dummyData.map(beach => {
+                {beaches.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
@@ -186,13 +199,11 @@ useEffect(() => {
                           style={styles.beachImage}
                         />
                       </CardItem>
-                      <CardItem>
+                      <CardItem style={{height:50}}>
                         <Left>
                           <Text> {beach.location}</Text>
                         </Left>
-                        <Button bordered success>
-                          <Text style={styles.btntxt}>Quality: Good</Text>
-                        </Button>
+                        {calcQuality(beach.quality)}
                       </CardItem>
                     </Card>
                   );
@@ -229,12 +240,6 @@ const styles = StyleSheet.create({
 
   uiIcon: {
     color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
-  },
-   
-  btntxt: {
-    color: "green",
-    width: 100,
-    textAlign: "center"
   },
   navLinks: {
     padding: 60,
