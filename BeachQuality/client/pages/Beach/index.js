@@ -16,10 +16,17 @@ import {
   Drawer,
   Row
 } from "native-base";
-import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Platform
+} from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
-import { MapView } from 'react-native-maps';
+import MapView from "react-native-maps";
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
@@ -57,7 +64,11 @@ const Beach = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
+            <MaterialIcons
+              style={styles.uiIcon}
+              name="keyboard-arrow-left"
+              size={32}
+            />
           </Button>
         </Left>
         <Body>
@@ -70,10 +81,10 @@ const Beach = ({ navigation }) => {
         <View style={styles.root}>
           <Content>
             <MapView
-             style = {styles.map}
-             region = {{
-              longitude: 18.341000,
-              latitude: 18.341000,
+              style={styles.map}
+              region={{
+                longitude: 18.341,
+                latitude: 18.341
               }}
             />
             <Text style={styles.title}>{name}</Text>
@@ -105,12 +116,12 @@ const styles = StyleSheet.create({
 
   map: {
     width: 300,
-    height: 180,
+    height: 180
   },
 
   uiIcon: {
-    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
-  }, 
+    color: Platform.OS === "ios" ? "#000000" : "#ffffff"
+  },
 
   title: {
     marginTop: "10%",

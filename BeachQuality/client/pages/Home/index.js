@@ -5,7 +5,14 @@ import React, {
   Component,
   useRef
 } from "react";
-import { StyleSheet, Text, View, ScrollView, Image, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Platform
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors, userSelectors } from "../../store/selectors";
 import { beachActions, userActions } from "../../store/actions";
@@ -27,8 +34,8 @@ import {
   Spinner
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
-import * as Permissions from "expo-permissions"
-import * as  Location  from 'expo-location';
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 //import { MapView, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const dummyData = [
@@ -59,8 +66,7 @@ const dummyData = [
 ];
 
 const Home = ({ navigation }) => {
-  
-  const location = useSelector(userSelectors.selectUserLocation)
+  const location = useSelector(userSelectors.selectUserLocation);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
@@ -68,9 +74,7 @@ const Home = ({ navigation }) => {
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
 
-
   //This needs to be called through a dispatch
-
 
   const onEntry = useCallback(async () => {
     await dispatch(beachActions.getBeaches());
@@ -95,25 +99,25 @@ const Home = ({ navigation }) => {
     },
     [dispatch]
   );
-  
- //Get Location Info
- const getLocationAsync =useCallback(async()=>  {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION); 
-  if (status === 'granted') {
-    dispatch(userActions.toggleLocation(1))
-    const currentLocation = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
- 
-    dispatch(userActions.setLocation(currentLocation))
-   
-  }
 
-},[dispatch,location])
+  //Get Location Info
+  const getLocationAsync = useCallback(async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      dispatch(userActions.toggleLocation(1));
+      const currentLocation = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: true
+      });
 
-useEffect(() => {
+      dispatch(userActions.setLocation(currentLocation));
+    }
+  }, [dispatch, location]);
+
+  useEffect(() => {
     onEntry();
     getLocationAsync();
   }, [dispatch]);
-  
+
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
 
@@ -130,7 +134,8 @@ useEffect(() => {
             <Container style={styles.navLinks}>
               <Button
                 transparent
-                onPress={() => navigation.navigate("Favorites")}>
+                onPress={() => navigation.navigate("Favorites")}
+              >
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <Text>Favorites</Text>
               </Button>
@@ -152,7 +157,7 @@ useEffect(() => {
       >
         <Header style={styles.header}>
           <Button transparent onPress={onOpen}>
-            <MaterialIcons style = {styles.uiIcon} name="menu" size={24}/>
+            <MaterialIcons style={styles.uiIcon} name="menu" size={24} />
           </Button>
 
           <Body style={{ alignItems: "center" }}>
@@ -160,7 +165,7 @@ useEffect(() => {
           </Body>
 
           <Button transparent onPress={() => navigation.navigate("Settings")}>
-            <MaterialIcons style = {styles.uiIcon} name="settings" size={24} />
+            <MaterialIcons style={styles.uiIcon} name="settings" size={24} />
           </Button>
         </Header>
         <View
@@ -228,9 +233,9 @@ const styles = StyleSheet.create({
   },
 
   uiIcon: {
-    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+    color: Platform.OS === "ios" ? "#000000" : "#ffffff"
   },
-   
+
   btntxt: {
     color: "green",
     width: 100,
