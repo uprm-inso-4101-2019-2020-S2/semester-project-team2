@@ -83,6 +83,8 @@ router.post("/addBeach", (req, res) => {
     name: req.body.name,
     image: req.body.image,
     location: req.body.location,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
     quality: req.body.quality,
   });
 

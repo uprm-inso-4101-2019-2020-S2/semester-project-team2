@@ -1,30 +1,30 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add react-navtive-maps
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add react-native-clients
 
 PATH: 
-  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/alejandroruiz/.sdkman/candidates/sbt/current/bin
+  /home/luisfcaro/.pyenv/plugins/pyenv-virtualenv/shims:/home/luisfcaro/.pyenv/shims:/home/luisfcaro/.pyenv/bin:/home/luisfcaro/.pyenv/plugins/pyenv-virtualenv/shims:/home/luisfcaro/.pyenv/shims:/home/luisfcaro/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/luisfcaro/.fzf/bin
 
 Yarn version: 
   1.22.4
 
 Node version: 
-  12.16.2
+  10.15.2
 
 Platform: 
-  darwin x64
+  linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-navtive-maps: Not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
-      at Request.emit (events.js:310:20)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141720:10)
-      at Request.emit (events.js:310:20)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141642:12)
-      at Object.onceWrapper (events.js:416:28)
-      at IncomingMessage.emit (events.js:322:22)
-      at endReadableNT (_stream_readable.js:1187:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: https://registry.yarnpkg.com/react-native-clients: Not found
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66987:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:189:13)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:189:13)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:277:13)
+      at IncomingMessage.emit (events.js:194:15)
+      at endReadableNT (_stream_readable.js:1103:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {

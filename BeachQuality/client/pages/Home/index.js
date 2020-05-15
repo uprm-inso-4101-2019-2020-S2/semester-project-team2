@@ -85,7 +85,7 @@ const Home = ({ navigation }) => {
 const calcQuality = rating => {
   if (rating == 'green' ) {
     return (
-      <Content  style={{color: "green", alignSelf: "flex-end", borderColor:'green', borderWidth: 1, padding: 3, height: 35}} >
+      <Content  style={{color: "green", alignSelf: "flex-end", borderColor:'green', borderWidth:1, padding: 3}} >
           <Text style={{fontSize: 15, color: "green", textAlign: "right"}}>
             Good
           </Text>           
@@ -180,7 +180,7 @@ useEffect(() => {
         >
           <ScrollView showsVerticalScrollIndicator={false}>
             {beachesLoading ? (
-              <Spinner color="blue" />
+              <Spinner color="blue"/>
             ) : beaches ? (
               <Col style={{ marginTop: 30 }}>
                 {beaches.map(beach => {
@@ -199,11 +199,13 @@ useEffect(() => {
                           style={styles.beachImage}
                         />
                       </CardItem>
-                      <CardItem style={{height:50}}>
-                        <Left>
-                          <Text> {beach.location}</Text>
+                      <CardItem>
+                        <Left> 
+                          <Text>{beach.location}</Text>
                         </Left>
+                        <Content>
                         {calcQuality(beach.quality)}
+                        </Content>
                       </CardItem>
                     </Card>
                   );

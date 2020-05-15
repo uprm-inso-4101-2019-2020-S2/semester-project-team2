@@ -19,7 +19,8 @@ import {
 import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
-//import { MapView } from "react-native-maps";
+import  MapView  from "react-native-maps";
+import { Marker } from 'react-native-maps';
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
@@ -27,9 +28,10 @@ const Beach = ({ navigation }) => {
   const {
     name,
     quality,
-    location
+    location,latitude, longitude
 
   } = currentBeach;
+
 
   const calcQuality = rating => {
     if (rating == 'green' ) {
@@ -74,13 +76,19 @@ const Beach = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
           <Content>
-          {/* <MapView
+          <MapView
              style = {styles.map}
              region = {{
-              longitude: 18.341000,
-              latitude: 18.341000,
+              latitude: parseFloat(latitude),
+              longitude: parseFloat(longitude),
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+             
               }}
-            /> */}
+            >
+
+              <Marker coordinate={{latitude:parseFloat(latitude),longitude:parseFloat(longitude)}}></Marker>
+            </MapView>
             <Text style={styles.title}>{name}</Text>
             <Text style={styles.info}>Quality: {calcQuality(quality)}</Text>
             <Text style={styles.info}>Location: {location}</Text>
@@ -106,10 +114,10 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
 
-  // map: {
-  //   width: 300,
-  //   height: 180,
-  // },
+  map: {
+    width: 300,
+    height: 180,
+  },
 
   image: {
     width: 300,
