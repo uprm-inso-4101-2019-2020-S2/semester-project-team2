@@ -17,3 +17,7 @@ export const selectUserAccount = createSelector(selectUser, user => {
 export const selectUserLocation = createSelector(selectUser, user =>{
   return user.location;
 })
+
+export const selectToggleLocation = createSelector(selectUser, user => {
+  return user.useLocation;
+})

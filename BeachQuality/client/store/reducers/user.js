@@ -3,7 +3,8 @@ const {
   REGISTER_USER,
   REGISTER_USER_FAILED,
   REGISTER_USER_SUCCESS,
-  FETCH_USER_LOCATION,
+  SET_USER_LOCATION,
+  TOGGLE_LOCATION,
   LOGIN_USER,
   LOGIN_USER_FAILED,
   LOGIN_USER_SUCCESS
@@ -14,7 +15,8 @@ const initialState = {
   account: null,
   userLoading: false,
   location: null,
-  isAuthenticated: false
+  isAuthenticated: false,
+  useLocation: -1
 };
 
 const userReducer = (state = initialState, action) => {
@@ -45,12 +47,20 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-    case FETCH_USER_LOCATION: {
+    case SET_USER_LOCATION: {
       return {
         ...state,
         location: action.payload
       };
     }
+
+    case TOGGLE_LOCATION: {
+      return {
+        ...state,
+        useLocation: action.payload
+      };
+    }
+
 
     case LOGIN_USER: {
       return {

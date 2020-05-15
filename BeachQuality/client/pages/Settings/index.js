@@ -1,10 +1,11 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useCallback } from "react";
 import { StyleSheet, Platform } from 'react-native';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { userSelectors } from "../../store/selectors";
+import { userActions } from "../../store/actions";
 import * as Font from "expo-font";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
+ import {
   Container,
   Header,
   Title,
@@ -24,24 +25,26 @@ import {
 import * as Permissions from "expo-permissions";
 
 const Settings = ({ navigation }) => {
+  const dispatch = useDispatch();
   const location = useSelector(userSelectors.selectUserLocation);
   const [locationEnabled, setLocationEnabled] = useState(null);
   const [isEnabled, setIsEnabled] = useState(true);
   const [isEnabled1, setIsEnabled1] = useState(true);
   const [isEnabled2, setIsEnabled2] = useState(true);
+  const useLocation = useSelector(userSelectors.selectToggleLocation)
+
   const notificationSwitch = () =>
     setIsEnabled(previousState => !previousState);
-  const locationSwitch = () => setIsEnabled1(previousState => !previousState);
+
+  const locationSwitch = useCallback(async()=>{
+    await dispatch(userActions.toggleLocation(useLocation*-1))
+
+  })
   const darkModeSwitch = () => setIsEnabled2(previousState => !previousState);
 
-  const getStatus = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    setLocationEnabled(status);
-  };
-
-  useEffect(() => {
-    getStatus();
-  }, []);
+  useEffect(()=>{
+  
+  },[dispatch])
 
   return (
     <Container>
@@ -70,7 +73,7 @@ const Settings = ({ navigation }) => {
               <Text>Location Services</Text>
             </Body>
 
-            <Switch onValueChange={locationSwitch} value={!!location} />
+            <Switch onValueChange={locationSwitch} value={useLocation === 1} />
           </ListItem>
           <ListItem>
             <Body>
