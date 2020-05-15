@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import { StyleSheet, Text, View, ScrollView, Image, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { beachSelectors } from "../../store/selectors";
-import { beachActions } from "../../store/actions";
+import { beachSelectors, userSelectors } from "../../store/selectors";
+import { beachActions, userActions } from "../../store/actions";
 import {
   Card,
   CardItem,
@@ -27,6 +27,8 @@ import {
   Spinner
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
+import * as Permissions from "expo-permissions"
+import * as  Location  from 'expo-location';
 
 const dummyData = [
   {
@@ -56,6 +58,8 @@ const dummyData = [
 ];
 
 const Home = ({ navigation }) => {
+  
+  const location = useSelector(userSelectors.selectUserLocation)
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
@@ -63,11 +67,9 @@ const Home = ({ navigation }) => {
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
 
-  //This needs to be called through a ddispatch
 
-  useEffect(() => {
-    onEntry();
-  }, [dispatch]);
+  //This needs to be called through a dispatch
+
 
   const onEntry = useCallback(async () => {
     await dispatch(beachActions.getBeaches());
@@ -92,7 +94,25 @@ const Home = ({ navigation }) => {
     },
     [dispatch]
   );
+  
+ //Get Location Info
+ const getLocationAsync =useCallback(async()=>  {
+  const { status } = await Permissions.askAsync(Permissions.LOCATION); 
+  if (status === 'granted') {
+    dispatch(userActions.toggleLocation(1))
+    const currentLocation = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+ 
+    dispatch(userActions.setLocation(currentLocation))
+   
+  }
 
+},[dispatch,location])
+
+useEffect(() => {
+    onEntry();
+    getLocationAsync();
+  }, [dispatch]);
+  
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
 
