@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import Routes from "./routes/";
 import { Provider } from "react-redux";
 import store from "./services/redux";
