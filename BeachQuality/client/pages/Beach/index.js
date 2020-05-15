@@ -16,7 +16,7 @@ import {
   Drawer,
   Row
 } from "native-base";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
 
@@ -56,7 +56,7 @@ const Beach = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
           </Button>
         </Left>
         <Body>
@@ -101,10 +101,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center"
   },
+
   image: {
     width: 300,
     height: 180
   },
+
+  uiIcon: {
+    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+  }, 
+
   title: {
     marginTop: "10%",
     maxWidth: 300,

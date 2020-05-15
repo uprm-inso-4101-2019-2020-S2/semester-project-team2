@@ -1,9 +1,11 @@
-import React from "react";
+import React,{useEffect,useCallback} from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PAGES from "../pages";
 
+
 const Routes = () => {
+
   //destructuring
   const {
     HOME,
@@ -17,9 +19,14 @@ const Routes = () => {
   } = PAGES;
   const Stack = createStackNavigator();
 
+
+
+ 
+
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
+     
         <Stack.Screen name={SIGNIN.TITLE} component={SIGNIN.COMPONENT} />
 
         <Stack.Screen name={SIGNUP.TITLE} component={SIGNUP.COMPONENT} />

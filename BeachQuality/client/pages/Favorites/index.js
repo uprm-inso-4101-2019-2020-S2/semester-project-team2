@@ -1,5 +1,6 @@
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import  { StyleSheet, Platform } from "react-native";
 import {
   Card,
   CardItem,
@@ -24,11 +25,11 @@ const Favorites = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons name="keyboard-arrow-left" size={32} color="white" />
+            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
           </Button>
         </Left>
         <Body>
-          <Title>Settings</Title>
+          <Title>Favorites</Title>
         </Body>
         <Right />
       </Header>
@@ -39,4 +40,9 @@ const Favorites = ({ navigation }) => {
   );
 };
 
+const styles = StyleSheet.create({
+  uiIcon: {
+    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+  }
+});
 export default Favorites;

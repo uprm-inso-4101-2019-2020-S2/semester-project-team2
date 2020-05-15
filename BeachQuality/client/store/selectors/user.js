@@ -13,3 +13,11 @@ export const selectUserErr = createSelector(selectUser, user => {
 export const selectUserAccount = createSelector(selectUser, user => {
   return user.account;
 });
+
+export const selectUserLocation = createSelector(selectUser, user =>{
+  return user.location;
+})
+
+export const selectToggleLocation = createSelector(selectUser, user => {
+  return user.useLocation;
+})
