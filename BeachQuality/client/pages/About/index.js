@@ -16,9 +16,10 @@ import {
   Drawer,
   Row
 } from "native-base";
+
 import { View, Text, StyleSheet, Platform, ScrollView } from "react-native";
 
-const About = () => {
+const About = ({ navigation }) => {
   return (
     <React.Fragment>
       <Header>
@@ -32,6 +33,7 @@ const About = () => {
         </Body>
         <Right />
       </Header>
+
 
     <ScrollView>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -96,6 +98,7 @@ const About = () => {
       <Text  style={{fontSize: 25, fontWeight: "bold", padding: 25}}> We hope you enjoy it! </Text>
      </View>
     </ScrollView>
+
     </React.Fragment>
   );
 };

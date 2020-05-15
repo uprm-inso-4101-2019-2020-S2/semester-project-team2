@@ -24,10 +24,20 @@ router.get("/:beachID", (req, res) => {
     .catch(err => console.log(err));
 });
 
+// @route   DELETE api/beach/deleteBeach/:beachID
+// @desc    Delete beach with id equal to beachID
+// @access  Private
+router.delete("/deleteBeach/:beachID", (req, res) => {
+  Beach.findByIdAndDelete(req.params.beachID)
+  .then(beach => res.json(beach))
+  .catch(err => console.log(err));
+});
+
+
 // @route   POST api/beach/addBeach
 // @desc    Add new Beach to DB
 // @access  Private
-router.post('/addBeach', (req, res) => {
+router.post("/addBeach", (req, res) => {
   const newBeach = new Beach({
     name: req.body.name,
     image: req.body.image,
@@ -39,6 +49,20 @@ router.post('/addBeach', (req, res) => {
     .save()
     .then(beach => res.json(beach))
     .catch(err => console.log(err));
-})
+});
+
+// @route   PUT api/beach/:beachID
+// @desc    PUT BeachID
+// @access  Private
+router.put("/updateBeach/:beachID", (req, res) => {
+  const updBeach = req.body;
+  Beach.findByIdAndUpdate(req.params.beachID, updBeach)
+    .then(() => {
+      Beach.findById(req.params.beachID)
+        .then(beach => res.json(beach))
+        .catch(err => console.log(err))
+    })
+    .catch(err => console.error(err))
+});
 
 module.exports = router;
