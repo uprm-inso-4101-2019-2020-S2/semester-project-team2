@@ -32,11 +32,13 @@ const About = () => {
         </Body>
         <Right />
       </Header>
+
     <ScrollView>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
 
       <Text style={{fontSize: 40, fontWeight: "bold", textDecorationLine: "underline", padding: 10}}>Special Thanks</Text>
       <Text style={{fontSize: 25, fontWeight: "bold", padding: 8}}>Project Description:</Text>
+      {/* Descriptive text of project */}
       <Text>As part of the class of INSO4101</Text>
       <Text>("Introduction to Software Engineering")</Text>
       <Text>in UPRM, it is assigned to develop </Text>
@@ -90,6 +92,7 @@ const About = () => {
         <Text>Sergio Pérez</Text>
         <Text>Songiemar García</Text>
 
+      {/* Nice little comment :) */}
       <Text  style={{fontSize: 25, fontWeight: "bold", padding: 25}}> We hope you enjoy it! </Text>
      </View>
     </ScrollView>
