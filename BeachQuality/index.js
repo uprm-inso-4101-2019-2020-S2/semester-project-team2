@@ -111,6 +111,7 @@ function fetchBeaches() {
 // Fetches the beaches every week (604800000 Milliseconds)
 setInterval(async () => {
   await fetchBeaches();
+
 }, 604800000);
 
 //Post beach data to db

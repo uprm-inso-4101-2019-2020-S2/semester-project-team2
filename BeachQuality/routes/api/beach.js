@@ -66,7 +66,7 @@ router.post(
             .then((beach2) => res.json(beach2))
             .catch((err) => console.log(err));
         } else {
-          Beach.replaceOne({ _id: beach._id }, newBeach)
+          Beach.findOneAndUpdate({ _id: beach._id }, newBeach)
             // .then(() => console.log(`${beach.name} updated!`))
             .catch((err) => console.error(err));
         }

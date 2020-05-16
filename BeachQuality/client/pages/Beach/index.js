@@ -28,7 +28,9 @@ const Beach = ({ navigation }) => {
   const {
     name,
     quality,
-    location,latitude, longitude
+    location,
+    latitude, 
+    longitude
 
   } = currentBeach;
 
