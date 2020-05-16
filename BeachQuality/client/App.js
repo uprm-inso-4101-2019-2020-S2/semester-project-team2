@@ -9,11 +9,11 @@ import store from "./services/redux";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
-
-
 export default function App() {
+  //hide the dev error warnings from the app.
+  console.disableYellowBox = true;
   const [isLoading, setIsLoading] = useState(true);
- 
+
   useEffect(() => {
     Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -22,7 +22,6 @@ export default function App() {
     }).then(() => {
       setIsLoading(false);
     });
-
   });
 
   if (!isLoading) {
@@ -34,7 +33,6 @@ export default function App() {
       </Provider>
     );
   } else {
-
     return (
       <View
         style={{
@@ -47,5 +45,4 @@ export default function App() {
       </View>
     );
   }
-
 }

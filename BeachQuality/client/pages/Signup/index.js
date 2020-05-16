@@ -138,10 +138,11 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     justifyContent: "center",
-    marginTop: 10,
-    width: 100
+    marginTop: 10
   },
   buttonText: {
+    paddingLeft: 35,
+    paddingRight: 35,
     color: COLORS.WHITE,
     fontWeight: "bold"
   },

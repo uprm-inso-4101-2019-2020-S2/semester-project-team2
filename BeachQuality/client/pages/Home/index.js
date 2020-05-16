@@ -31,7 +31,9 @@ import {
   Title,
   Drawer,
   Row,
-  Spinner
+  Spinner,
+  Input,
+  Item
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
@@ -87,7 +89,6 @@ const Home = ({ navigation }) => {
   }, [dispatch, location]);
 
   useEffect(() => {
-    console.log(beaches);
     onEntry();
     getLocationAsync();
   }, [dispatch]);
@@ -215,6 +216,26 @@ const Home = ({ navigation }) => {
             <MaterialIcons style={styles.uiIcon} name="settings" size={24} />
           </Button>
         </Header>
+
+        <Item
+          style={{
+            alignSelf: "center",
+            marginTop: "2%"
+          }}
+        >
+          <Input />
+          <Button
+            rounded
+            style={{ paddingLeft: 10, paddingRight: 10, marginRight: 10 }}
+          >
+            <MaterialIcons
+              name="search"
+              size={24}
+              color={Platform.OS === "ios" ? "#000000" : "#ffffff"}
+            />
+          </Button>
+        </Item>
+
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -222,7 +243,7 @@ const Home = ({ navigation }) => {
             {beachesLoading ? (
               <Spinner color="blue" />
             ) : beaches ? (
-              <Col style={{ marginTop: 30 }}>
+              <Col style={{ marginTop: 30, marginBottom: 80 }}>
                 {beaches.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
