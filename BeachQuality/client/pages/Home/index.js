@@ -34,8 +34,14 @@ import {
   Spinner
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
+<<<<<<< HEAD
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
+=======
+import * as Permissions from "expo-permissions"
+import * as  Location  from 'expo-location';
+
+>>>>>>> 10963ac02d34d777eca32c2978e390d544a61baf
 
 const Home = ({ navigation }) => {
   const location = useSelector(userSelectors.selectUserLocation);
@@ -71,6 +77,7 @@ const Home = ({ navigation }) => {
     },
     [dispatch]
   );
+<<<<<<< HEAD
 
   //Get Location Info
   const getLocationAsync = useCallback(async () => {
@@ -91,6 +98,66 @@ const Home = ({ navigation }) => {
     getLocationAsync();
   }, [dispatch]);
 
+=======
+  
+ //Get Location Info
+ const getLocationAsync =useCallback(async()=>  {
+  const { status } = await Permissions.askAsync(Permissions.LOCATION); 
+  if (status === 'granted') {
+    dispatch(userActions.toggleLocation(1))
+    const currentLocation = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+ 
+    dispatch(userActions.setLocation(currentLocation))
+   
+  }
+},[dispatch,location])
+
+
+const calcQuality = rating => {
+  if (rating == 'green' ) {
+    return (
+      <Content  style={{color: "green", alignSelf: "flex-end", borderColor:'green', borderWidth:1, padding: 3}} >
+          <Text style={{fontSize: 15, color: "green", textAlign: "right"}}>
+            Good
+          </Text>           
+      </Content>
+      
+    );
+  } else if (rating == 'yellow') {
+    return (
+      <Content  style={{color: "#de8209", alignSelf: "flex-end", borderColor: '#de8209', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "#de8209", textAlign: "right"}}>
+          Medium
+        </Text>           
+      </Content>
+    );
+  } else if (rating == 'red') {
+    return (
+      <Content  style={{color: "red", alignSelf: "flex-end", borderColor:'red', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "red", textAlign: "right"}}>
+           Bad
+         </Text>           
+      </Content>
+    );
+  } else {
+    return (
+      <Content  style={{color: "gray", alignSelf: "flex-end", borderColor:'gray', borderWidth: 1, padding: 3}} >
+        <Text style={{fontSize: 15, color: "gray", textAlign: "right"}}>
+           Untested
+        </Text>           
+      </Content>
+    );
+  }
+};
+
+
+useEffect(() => {
+    onEntry();
+    getLocationAsync();
+  }, [dispatch]);
+  
+  
+>>>>>>> 10963ac02d34d777eca32c2978e390d544a61baf
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
 
@@ -146,7 +213,7 @@ const Home = ({ navigation }) => {
         >
           <ScrollView showsVerticalScrollIndicator={false}>
             {beachesLoading ? (
-              <Spinner color="blue" />
+              <Spinner color="blue"/>
             ) : beaches ? (
               <Col style={{ marginTop: 30 }}>
                 {beaches.map(beach => {
@@ -166,12 +233,12 @@ const Home = ({ navigation }) => {
                         />
                       </CardItem>
                       <CardItem>
-                        <Left>
-                          <Text> {beach.location}</Text>
+                        <Left> 
+                          <Text>{beach.location}</Text>
                         </Left>
-                        <Button bordered success>
-                          <Text style={styles.btntxt}>Quality: Good</Text>
-                        </Button>
+                        <Content>
+                        {calcQuality(beach.quality)}
+                        </Content>
                       </CardItem>
                     </Card>
                   );
@@ -209,12 +276,15 @@ const styles = StyleSheet.create({
   uiIcon: {
     color: Platform.OS === "ios" ? "#000000" : "#ffffff"
   },
+<<<<<<< HEAD
 
   btntxt: {
     color: "green",
     width: 100,
     textAlign: "center"
   },
+=======
+>>>>>>> 10963ac02d34d777eca32c2978e390d544a61baf
   navLinks: {
     padding: 60,
     marginRight: "40%",

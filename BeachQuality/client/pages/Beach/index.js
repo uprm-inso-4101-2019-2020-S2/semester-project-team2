@@ -19,6 +19,8 @@ import {
 import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors } from "../../store/selectors";
+import  MapView  from "react-native-maps";
+import { Marker } from 'react-native-maps';
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
@@ -26,27 +28,35 @@ const Beach = ({ navigation }) => {
   const {
     name,
     quality,
-    waterTemperature,
-    currentWeather,
-    waveHeight
+    location,
+    latitude, 
+    longitude
+
   } = currentBeach;
 
+
   const calcQuality = rating => {
-    if (rating <= 35) {
+    if (rating == 'green' ) {
       return (
         <Text style={{ marginTop: "2%", fontSize: 20, color: "green" }}>
           Good
         </Text>
       );
-    } else if (rating >= 36 && rating <= 70) {
+    } else if (rating == 'yellow') {
       return (
-        <Text style={{ marginTop: "2%", fontSize: 20, color: "yellow" }}>
+        <Text style={{ marginTop: "2%", fontSize: 20, color: "#de8209" }}>
           Medium
+        </Text>
+      );
+    } else if (rating == 'red') {
+      return (
+        <Text style={{ marginTop: "2%", fontSize: 20, color: "red" }}>
+          Bad
         </Text>
       );
     } else {
       return (
-        <Text style={{ marginTop: "2%", fontSize: 20, color: "red" }}>Bad</Text>
+        <Text style={{ marginTop: "2%", fontSize: 15, color: "gray" }}>Untested</Text>
       );
     }
   };
@@ -68,20 +78,24 @@ const Beach = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
           <Content>
-            <Image
-              source={{
-                uri:
-                  "http://cdn.c.photoshelter.com/img-get/I0000x8LjeqlKP0o/s/860/860/Playa-Buye-Cabo-Rojo-P-R-DSC0091.jpg"
+          <MapView
+             style = {styles.map}
+             region = {{
+              latitude: parseFloat(latitude),
+              longitude: parseFloat(longitude),
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+             
               }}
-              style={styles.image}
-            />
+            >
+
+              <Marker coordinate={{latitude:parseFloat(latitude),longitude:parseFloat(longitude)}}></Marker>
+            </MapView>
             <Text style={styles.title}>{name}</Text>
             <Text style={styles.info}>Quality: {calcQuality(quality)}</Text>
-            <Text style={styles.info}>Weather: {currentWeather}°F</Text>
-            <Text style={styles.info}>
-              Water temperature: {waterTemperature}°F
-            </Text>
-            <Text style={styles.info}>Wave height: {waveHeight}ft.</Text>
+            <Text style={styles.info}>Location: {location}</Text>
+            
+           
             <Button style={styles.button}>
               <Text style={styles.buttonTxt}>Get Directions</Text>
             </Button>
@@ -100,6 +114,11 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     flex: 1,
     alignItems: "center"
+  },
+
+  map: {
+    width: 300,
+    height: 180,
   },
 
   image: {

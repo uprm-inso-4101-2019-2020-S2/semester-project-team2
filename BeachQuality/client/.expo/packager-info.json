@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 17568,
-  "expoServerNgrokUrl": "https://fm-pth.anonymous.client.exp.direct",
-  "packagerNgrokUrl": "https://packager.fm-pth.anonymous.client.exp.direct",
-  "ngrokPid": 17698,
+  "packagerPid": 19749,
+  "expoServerNgrokUrl": "https://fh-d5d.anonymous.client.exp.direct",
+  "packagerNgrokUrl": "https://packager.fh-d5d.anonymous.client.exp.direct",
+  "ngrokPid": 20940,
   "webpackServerPort": null
 }
