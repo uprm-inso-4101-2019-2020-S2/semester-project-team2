@@ -59,7 +59,7 @@ var pageNumber = 1;
 function fetchBeaches() {
   for (i = 0; i < 2; i++) {
     request(
-      `https://www.theswimguide.org/beaches/puerto-rico?page=${pageNumber}#beaches-table`,
+      `https://www.theswimguide.org/beaches/puerto-rico?page=${pageNumber}#beaches-table`, 
       (err, res, html) => {
         if (!err && res.statusCode === 200) {
           const $ = cheerio.load(html);
@@ -111,6 +111,7 @@ function fetchBeaches() {
 // Fetches the beaches every week (604800000 Milliseconds)
 setInterval(async () => {
   await fetchBeaches();
+
 }, 604800000);
 
 //Post beach data to db
