@@ -16,15 +16,16 @@ import {
   Drawer,
   Row
 } from "native-base";
-import { View, Text, Image, StyleSheet, ScrollView, Platform } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, Platform, Linking } from "react-native";
 import { useSelector } from "react-redux";
-import { beachSelectors } from "../../store/selectors";
+import { beachSelectors, userSelectors } from "../../store/selectors";
 import  MapView  from "react-native-maps";
 import { Marker } from 'react-native-maps';
 
 const Beach = ({ navigation }) => {
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
-
+  const userLocation = useSelector(userSelectors.selectUserLocation);
+ 
   const {
     name,
     quality,
@@ -97,7 +98,12 @@ const Beach = ({ navigation }) => {
             
            
             <Button style={styles.button}>
-              <Text style={styles.buttonTxt}>Get Directions</Text>
+              <Text style={styles.buttonTxt} onPress = {() =>{
+                Platform.OS === 'ios' ? 
+                Linking.openURL(`maps://app?saddr=${userLocation.latitude}+${useLocation.longitude}&daddr=${latitude}+${longitude}`) : 
+                Linking.openURL(`google.navigation:q=${latitude}+${longitude}`)
+
+              }}>Get Directions</Text>
             </Button>
             <Button style={styles.button}>
               <Text style={styles.buttonTxt}>Add To Favorites</Text>
