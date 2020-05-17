@@ -48,12 +48,20 @@ const Home = ({ navigation }) => {
   const beaches = useSelector(beachSelectors.selectBeaches);
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
-  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
-  const account = useSelector(userSelectors.selectUserAccount);
+  const [filt, setFilt] = useState("");
+  const [filteredList, setFilteredList] = useState([]);
 
-  const onLogout = useCallback(() => {
-    dispatch(userActions.logoutUser());
-  }, [dispatch, isAuthenticated]);
+  const list = filteredList.length === 0 ? beaches : filteredList;
+
+  const onSearch = () => {
+    console.log(filt);
+    if (beaches)
+      setFilteredList(
+        beaches.filter(beach =>
+          beach.name.toLowerCase().includes(filt.toLowerCase())
+        )
+      );
+  };
 
   //This needs to be called through a dispatch
 
@@ -68,6 +76,10 @@ const Home = ({ navigation }) => {
   const onClose = () => {
     drawer._root.close();
   };
+
+  const onLogout = useCallback(() => {
+    //logout function
+  }, [dispatch]);
 
   const onSelect = useCallback(
     async beach => {
@@ -93,8 +105,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     onEntry();
     getLocationAsync();
-    if (!isAuthenticated) navigation.navigate("Signin");
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch]);
 
   const calcQuality = rating => {
     if (rating == "green") {
@@ -226,8 +237,9 @@ const Home = ({ navigation }) => {
             marginTop: "2%"
           }}
         >
-          <Input />
+          <Input onChangeText={text => setFilt(text)} />
           <Button
+            onPress={onSearch}
             rounded
             style={{ paddingLeft: 10, paddingRight: 10, marginRight: 10 }}
           >
@@ -247,7 +259,7 @@ const Home = ({ navigation }) => {
               <Spinner color="blue" />
             ) : beaches ? (
               <Col style={{ marginTop: 30, marginBottom: 80 }}>
-                {beaches.map(beach => {
+                {list.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
@@ -314,6 +326,7 @@ const styles = StyleSheet.create({
 
   navLinks: {
     padding: 60,
+    marginRight: "40%",
     marginTop: 20
   }
 });
