@@ -1,6 +1,7 @@
 import { regUserRef, loginUserRef, userRef } from "../../utils/references";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { AsyncStorage } from "react-native";
 
 import { userActionTypes } from "./types";
 
@@ -53,13 +54,13 @@ export const loginUser = user => async dispatch => {
 };
 
 export const logoutUser = () => async dispatch => {
-  // dispatch({ type: LOGOUT_USER });
-  // try {
-  //   await localStorage.removeItem("jwtToken");
-  //   dispatch({ type: LOGOUT_USER_SUCCESS });
-  // } catch (err) {
-  //   dispatch({ type: LOGOUT_USER_FAILED, payload: err });
-  // }
+  dispatch({ type: LOGOUT_USER });
+  try {
+    await AsyncStorage.removeItem("jwtToken");
+    dispatch({ type: LOGOUT_USER_SUCCESS });
+  } catch (err) {
+    dispatch({ type: LOGOUT_USER_FAILED, payload: err });
+  }
 };
 
 export const addFavorite = beach_id => (dispatch, getState) => {

@@ -22,7 +22,9 @@ const Signin = ({ navigation }) => {
   }, [dispatch, email, password]);
 
   useEffect(() => {
-    if (isAuthenticated) navigation.navigate("Home");
+    if (isAuthenticated) {
+      navigation.navigate("Home");
+    }
   }, [dispatch, isAuthenticated]);
 
   return (
