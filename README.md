@@ -93,7 +93,7 @@ If this is your first time with the app, fill out the sign up page to create an 
 ### The Home Menu
 Here in this menu, you will see a search engine which allows you to input a specific beach that you’re looking for. The menu also shows the relevant beach cards with the corresponding beach name and quality rating below the search bar. The quality rating is displayed with the same color spectrum as the one used for the measurement of water quality. For example, the color green is for acceptable water quality, meaning that it has satisfied [the standards established by the BEACH act under the authority of EPA](https://www.epa.gov/beach-tech/final-water-quality-standards-bacteria-rule-coastal-and-great-lakes-recreation-waters) and the color red is for water quality that should be avoided.
 
-####Beach Cards
+### Beach Cards
 Every beach has a corresponding beach card, you can press it to see more information. In its menu, you can observe the beach name, quality, location and a brief description of the beach. Below, there will be three buttons: a button for directions (shows you a path from your current location to the specified beach), a button for more information, and a favorites button (allows you to add the beach card to your favorites tab for quick access).
 
 ### The Favorites Menu
