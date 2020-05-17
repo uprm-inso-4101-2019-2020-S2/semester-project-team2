@@ -6,6 +6,7 @@ const keys = require("../../services/config/mongo");
 
 // Beach Model
 const User = require("../../models/user");
+const Beach = require("../../models/beach");
 
 // Load input validation
 const validateRegisterInput = require("../validation/register");
@@ -127,6 +128,34 @@ router.put("/:userID", (req, res) => {
       .then(user => res.json(user))
       .catch(err => console.log(err));
   });
+});
+
+// @route   POST api/user/:userID/:beachID
+// @desc    Update an existing user
+// @acceess Public
+router.put("/:userID/:beachID", (req, res) => {
+  const { userID, beachID } = req.params;
+
+  User.findById(userID)
+    .then(user => {
+
+      const{favoriteList,_id, email, password} = user;
+
+      favoriteList.push(beachID);
+      console.log(favoriteList);
+      const newUser = new User({
+        _id,
+        email,
+        password,
+        favoriteList
+      });
+      // console.log(newUser)
+
+      return User.findByIdAndUpdate(_id,newUser).then((userUpdated)=>console.log(userUpdated));
+
+    })
+    .finally(()=>console.log("done"))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
