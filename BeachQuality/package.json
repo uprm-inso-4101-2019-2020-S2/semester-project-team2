@@ -36,6 +36,7 @@
     "client-install": "yarn install --prefix client",
     "app": "nodemon index",
     "client": "npm start --prefix client",
-    "start": "concurrently \"npm run app\" \"npm run client\""
+    "start": "concurrently \"npm run app\" \"npm run client\"",
+    "test": "jest"
   }
 }
