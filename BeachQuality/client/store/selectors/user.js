@@ -10,6 +10,10 @@ export const selectUserErr = createSelector(selectUser, user => {
   return user.err;
 });
 
+export const selectAuthListener = createSelector(selectUser, user => {
+  return user.authListener;
+});
+
 export const selectUserAccount = createSelector(selectUser, user => {
   return user.account;
 });

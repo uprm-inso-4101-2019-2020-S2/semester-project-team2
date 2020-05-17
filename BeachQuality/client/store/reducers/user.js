@@ -12,11 +12,15 @@ const {
   LOGOUT_USER,
   ADD_FAVORITE,
   ADD_FAVORITE_SUCCESS,
-  ADD_FAVORITE_FAILED
+  ADD_FAVORITE_FAILED,
+  FETCH_USER_DATA,
+  FETCH_USER_DATA_FAILED,
+  FETCH_USER_DATA_SUCCESS
 } = userActionTypes;
 
 const initialState = {
   err: null,
+  authListener: null,
   account: null,
   userLoading: false,
   location: null,
@@ -69,12 +73,14 @@ const userReducer = (state = initialState, action) => {
         ...state,
         err: null,
         isAuthenticated: true,
-        account: action.payload,
+        authListener: action.payload,
+        account: action.payload.data.account,
         userLoading: false
       };
     }
 
     case LOGIN_USER_FAILED: {
+      console.log(action.payload);
       return {
         ...state,
         userLoading: false,
@@ -95,12 +101,12 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userLoading: false,
         account: null,
+        authListener: null,
         isAuthenticated: false
       };
     }
 
     case LOGOUT_USER_FAILED: {
-      console.log(action.payload);
       return {
         ...state,
         err: action.payload

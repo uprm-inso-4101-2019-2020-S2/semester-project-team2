@@ -19,7 +19,7 @@ const server = express();
 // Bodyparser Middleware
 server.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: false
   })
 );
 server.use(bodyParser.json());
@@ -36,10 +36,10 @@ mongoose
   .connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
+    useCreateIndex: true
   })
   .then(() => console.log("connected to database"))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 mongoose.set("useFindAndModify", false);
 
 // Use Routes
@@ -59,7 +59,7 @@ var pageNumber = 1;
 function fetchBeaches() {
   for (i = 0; i < 2; i++) {
     request(
-      `https://www.theswimguide.org/beaches/puerto-rico?page=${pageNumber}#beaches-table`, 
+      `https://www.theswimguide.org/beaches/puerto-rico?page=${pageNumber}#beaches-table`,
       (err, res, html) => {
         if (!err && res.statusCode === 200) {
           const $ = cheerio.load(html);
@@ -86,7 +86,7 @@ function fetchBeaches() {
               image: "some image",
               location:
                 elem.children[3].children[3].children[0].data + " Puerto Rico",
-              quality: color,
+              quality: color
             };
 
             let exists = false;
@@ -111,11 +111,10 @@ function fetchBeaches() {
 // Fetches the beaches every week (604800000 Milliseconds)
 setInterval(async () => {
   await fetchBeaches();
-
 }, 604800000);
 
 //Post beach data to db
-const postBeach = (beach) => {
+const postBeach = beach => {
   request.post(
     `http://localhost:4000/api/beach/addBeach/${beach.name}/${beach.image}/${beach.location}/${beach.quality}`,
     (err, res, html) => {

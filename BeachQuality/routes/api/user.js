@@ -22,15 +22,6 @@ router.get("/", (req, res) => {
     .catch(err => console.log(err));
 });
 
-// @route   GET api/user/userID
-// @desc    Get user with id equal to userID
-// @access  Public
-router.get("/:userID", (req, res) => {
-  User.findById(req.params.userID)
-    .then(user => res.json(user))
-    .catch(err => console.log(err));
-});
-
 // @route   POST api/user/register
 // @desc    Create a new User
 // @access  Public
@@ -52,7 +43,6 @@ router.post("/register", (req, res) => {
         password: req.body.password
       });
       // Hash password before saving in database
-      console.log(newUser);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -103,6 +93,7 @@ router.post("/login", (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
               res.json({
+                account: user,
                 success: true,
                 token: "Token: " + token
               });
@@ -140,21 +131,19 @@ router.put("/:userID/:beachID", (req, res) => {
     .then(user => {
       const { favoriteList, _id, email, password } = user;
 
+      if (favoriteList.includes(beachID)) return;
+
       favoriteList.push(beachID);
-      console.log(favoriteList);
+
       const newUser = new User({
         _id,
         email,
         password,
         favoriteList
       });
-      // console.log(newUser)
 
-      return User.findByIdAndUpdate(_id, newUser).then(userUpdated =>
-        console.log(userUpdated)
-      );
+      return User.findByIdAndUpdate(_id, newUser);
     })
-    .finally(() => console.log("done"))
     .catch(err => console.log(err));
 });
 

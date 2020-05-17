@@ -49,6 +49,7 @@ const Home = ({ navigation }) => {
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+  const account = useSelector(userSelectors.selectUserAccount);
 
   const onLogout = useCallback(() => {
     dispatch(userActions.logoutUser());
@@ -313,7 +314,6 @@ const styles = StyleSheet.create({
 
   navLinks: {
     padding: 60,
-    marginRight: "40%",
     marginTop: 20
   }
 });

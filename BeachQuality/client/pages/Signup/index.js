@@ -12,7 +12,7 @@ const Signup = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
-  const isAuthenticated = useSelector(userSelectors.isAuthenticated);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
 
   const handleSubmit = useCallback(async () => {
     console.log(email, password, cPassword);

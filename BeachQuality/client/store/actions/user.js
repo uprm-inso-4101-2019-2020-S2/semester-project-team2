@@ -18,7 +18,10 @@ const {
   LOGOUT_USER_SUCCESS,
   ADD_FAVORITE,
   ADD_FAVORITE_FAILED,
-  ADD_FAVORITE_SUCCESS
+  ADD_FAVORITE_SUCCESS,
+  FETCH_USER_DATA,
+  FETCH_USER_DATA_SUCCESS,
+  FETCH_USER_DATA_FAILED
 } = userActionTypes;
 
 // Register Action
@@ -28,10 +31,7 @@ export const registerUser = user => async dispatch => {
   await axios
     .post(regUserRef, user)
     .then(async () => {
-      await axios
-        .post(loginUserRef, user)
-        .then(res => dispatch({ type: LOGIN_USER_SUCCESS, payload: res }))
-        .catch(err => dispatch({ type: LOGIN_USER_FAILED, payload: err }));
+      await loginUser(user);
     })
     .catch(err => dispatch({ type: REGISTER_USER_FAILED, payload: err }));
 };
@@ -49,7 +49,9 @@ export const loginUser = user => async dispatch => {
 
   await axios
     .post(loginUserRef, user)
-    .then(res => dispatch({ type: LOGIN_USER_SUCCESS, payload: res }))
+    .then(res => {
+      dispatch({ type: LOGIN_USER_SUCCESS, payload: res });
+    })
     .catch(err => dispatch({ type: LOGIN_USER_FAILED, payload: err }));
 };
 
@@ -64,11 +66,12 @@ export const logoutUser = () => async dispatch => {
 };
 
 export const addFavorite = beach_id => (dispatch, getState) => {
-  console.log(getState().user.account);
-  // const { _id } = getState().user.account;
-  // axios.post(`${userRef}/${_id}/${beach_id}`).then(() => {
-  //   dispatch({ type: ADD_FAVORITE_SUCCESS }).catch(err =>
-  //     dispatch({ type: ADD_FAVORITE_FAILED, payload: err })
-  //   );
-  // });
+  // console.log(getState().user.account, beach_id);
+  const { _id } = getState().user.account;
+
+  axios.put(`${userRef}/${_id}/${beach_id}`).then(() => {
+    dispatch({ type: ADD_FAVORITE_SUCCESS }).catch(err =>
+      dispatch({ type: ADD_FAVORITE_FAILED, payload: err })
+    );
+  });
 };
