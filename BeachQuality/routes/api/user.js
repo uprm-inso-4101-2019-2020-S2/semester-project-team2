@@ -131,15 +131,14 @@ router.put("/:userID", (req, res) => {
 });
 
 // @route   POST api/user/:userID/:beachID
-// @desc    Update an existing user
+// @desc    Update favoriteList
 // @acceess Public
 router.put("/:userID/:beachID", (req, res) => {
   const { userID, beachID } = req.params;
 
   User.findById(userID)
     .then(user => {
-
-      const{favoriteList,_id, email, password} = user;
+      const { favoriteList, _id, email, password } = user;
 
       favoriteList.push(beachID);
       console.log(favoriteList);
@@ -151,10 +150,11 @@ router.put("/:userID/:beachID", (req, res) => {
       });
       // console.log(newUser)
 
-      return User.findByIdAndUpdate(_id,newUser).then((userUpdated)=>console.log(userUpdated));
-
+      return User.findByIdAndUpdate(_id, newUser).then(userUpdated =>
+        console.log(userUpdated)
+      );
     })
-    .finally(()=>console.log("done"))
+    .finally(() => console.log("done"))
     .catch(err => console.log(err));
 });
 

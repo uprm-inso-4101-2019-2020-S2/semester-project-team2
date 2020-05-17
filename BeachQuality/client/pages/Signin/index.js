@@ -12,7 +12,7 @@ const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const account = useSelector(userSelectors.selectUserAccount);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const handleSubmit = useCallback(async () => {
     if (email && password) {
       await dispatch(userActions.loginUser({ email, password }));
@@ -22,8 +22,8 @@ const Signin = ({ navigation }) => {
   }, [dispatch, email, password]);
 
   useEffect(() => {
-    if (account) navigation.navigate("Home");
-  }, [dispatch, account]);
+    if (isAuthenticated) navigation.navigate("Home");
+  }, [dispatch, isAuthenticated]);
 
   return (
     <View style={styles.container}>

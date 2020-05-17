@@ -2,12 +2,17 @@ import { userActionTypes } from "../actions/types";
 const {
   REGISTER_USER,
   REGISTER_USER_FAILED,
-  REGISTER_USER_SUCCESS,
   SET_USER_LOCATION,
   TOGGLE_LOCATION,
   LOGIN_USER,
   LOGIN_USER_FAILED,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOGOUT_USER_FAILED,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_USER,
+  ADD_FAVORITE,
+  ADD_FAVORITE_SUCCESS,
+  ADD_FAVORITE_FAILED
 } = userActionTypes;
 
 const initialState = {
@@ -27,15 +32,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userLoading: true
-      };
-    }
-
-    case REGISTER_USER_SUCCESS: {
-      return {
-        ...state,
-        err: null,
-        account: action.payload,
-        userLoading: false
       };
     }
 
@@ -61,7 +57,6 @@ const userReducer = (state = initialState, action) => {
       };
     }
 
-
     case LOGIN_USER: {
       return {
         ...state,
@@ -84,6 +79,51 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userLoading: false,
         isAuthenticated: false,
+        err: action.payload
+      };
+    }
+
+    case LOGOUT_USER: {
+      return {
+        ...state,
+        userLoading: true
+      };
+    }
+
+    case LOGOUT_USER_SUCCESS: {
+      return {
+        ...state,
+        userLoading: false,
+        account: null,
+        isAuthenticated: false
+      };
+    }
+
+    case LOGOUT_USER_FAILED: {
+      console.log(action.payload);
+      return {
+        ...state,
+        err: action.payload
+      };
+    }
+
+    case ADD_FAVORITE: {
+      return {
+        ...state,
+        userLoading: true
+      };
+    }
+    case ADD_FAVORITE_SUCCESS: {
+      return {
+        ...state,
+        userLoading: false
+      };
+    }
+
+    case ADD_FAVORITE_FAILED: {
+      return {
+        ...state,
+        userLoading: false,
         err: action.payload
       };
     }

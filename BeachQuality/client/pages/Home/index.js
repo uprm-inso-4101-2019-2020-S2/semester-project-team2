@@ -48,6 +48,11 @@ const Home = ({ navigation }) => {
   const beaches = useSelector(beachSelectors.selectBeaches);
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+
+  const onLogout = useCallback(() => {
+    dispatch(userActions.logoutUser());
+  }, [dispatch, isAuthenticated]);
 
   //This needs to be called through a dispatch
 
@@ -62,10 +67,6 @@ const Home = ({ navigation }) => {
   const onClose = () => {
     drawer._root.close();
   };
-
-  const onLogout = useCallback(() => {
-    //logout function
-  }, [dispatch]);
 
   const onSelect = useCallback(
     async beach => {
@@ -91,7 +92,8 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     onEntry();
     getLocationAsync();
-  }, [dispatch]);
+    if (!isAuthenticated) navigation.navigate("Signin");
+  }, [dispatch, isAuthenticated]);
 
   const calcQuality = rating => {
     if (rating == "green") {

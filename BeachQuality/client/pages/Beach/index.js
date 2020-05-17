@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { userActions } from "../../store/actions";
+import { useDispatch } from "react-redux";
 import {
   Card,
   CardItem,
@@ -16,48 +18,52 @@ import {
   Drawer,
   Row
 } from "native-base";
-import { View, Text, Image, StyleSheet, ScrollView, Platform, Linking } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Platform,
+  Linking
+} from "react-native";
 import { useSelector } from "react-redux";
 import { beachSelectors, userSelectors } from "../../store/selectors";
-import  MapView  from "react-native-maps";
-import { Marker } from 'react-native-maps';
+import MapView from "react-native-maps";
+import { Marker } from "react-native-maps";
 
 const Beach = ({ navigation }) => {
+  const dispatch = useDispatch();
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
   const userLocation = useSelector(userSelectors.selectUserLocation);
- 
-  const {
-    name,
-    quality,
-    location,
-    latitude, 
-    longitude
 
-  } = currentBeach;
+  const { _id, name, quality, location, latitude, longitude } = currentBeach;
 
-
+  const onAddFav = useCallback(async () => {
+    dispatch(userActions.addFavorite(_id));
+  }, [dispatch]);
   const calcQuality = rating => {
-    if (rating == 'green' ) {
+    if (rating == "green") {
       return (
         <Text style={{ marginTop: "2%", fontSize: 20, color: "green" }}>
           Good
         </Text>
       );
-    } else if (rating == 'yellow') {
+    } else if (rating == "yellow") {
       return (
         <Text style={{ marginTop: "2%", fontSize: 20, color: "#de8209" }}>
           Medium
         </Text>
       );
-    } else if (rating == 'red') {
+    } else if (rating == "red") {
       return (
-        <Text style={{ marginTop: "2%", fontSize: 20, color: "red" }}>
-          Bad
-        </Text>
+        <Text style={{ marginTop: "2%", fontSize: 20, color: "red" }}>Bad</Text>
       );
     } else {
       return (
-        <Text style={{ marginTop: "2%", fontSize: 15, color: "gray" }}>Untested</Text>
+        <Text style={{ marginTop: "2%", fontSize: 15, color: "gray" }}>
+          Untested
+        </Text>
       );
     }
   };
@@ -67,7 +73,11 @@ const Beach = ({ navigation }) => {
       <Header>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <MaterialIcons style = {styles.uiIcon} name="keyboard-arrow-left" size={32} />
+            <MaterialIcons
+              style={styles.uiIcon}
+              name="keyboard-arrow-left"
+              size={32}
+            />
           </Button>
         </Left>
         <Body>
@@ -79,34 +89,46 @@ const Beach = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
           <Content>
-          <MapView
-             style = {styles.map}
-             region = {{
-              latitude: parseFloat(latitude),
-              longitude: parseFloat(longitude),
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-             
+            <MapView
+              style={styles.map}
+              region={{
+                latitude: parseFloat(latitude),
+                longitude: parseFloat(longitude),
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
               }}
             >
-
-              <Marker coordinate={{latitude:parseFloat(latitude),longitude:parseFloat(longitude)}}></Marker>
+              <Marker
+                coordinate={{
+                  latitude: parseFloat(latitude),
+                  longitude: parseFloat(longitude)
+                }}
+              ></Marker>
             </MapView>
             <Text style={styles.title}>{name}</Text>
             <Text style={styles.info}>Quality: {calcQuality(quality)}</Text>
             <Text style={styles.info}>Location: {location}</Text>
-            
-           
-            <Button style={styles.button}>
-              <Text style={styles.buttonTxt} onPress = {() =>{
-                Platform.OS === 'ios' ? 
-                Linking.openURL(`maps://app?saddr=${userLocation.latitude}+${useLocation.longitude}&daddr=${latitude}+${longitude}`) : 
-                Linking.openURL(`google.navigation:q=${latitude}+${longitude}`)
 
-              }}>Get Directions</Text>
+            <Button style={styles.button}>
+              <Text
+                style={styles.buttonTxt}
+                onPress={() => {
+                  Platform.OS === "ios"
+                    ? Linking.openURL(
+                        `maps://app?saddr=${userLocation.latitude}+${useLocation.longitude}&daddr=${latitude}+${longitude}`
+                      )
+                    : Linking.openURL(
+                        `google.navigation:q=${latitude}+${longitude}`
+                      );
+                }}
+              >
+                Get Directions
+              </Text>
             </Button>
             <Button style={styles.button}>
-              <Text style={styles.buttonTxt}>Add To Favorites</Text>
+              <Text style={styles.buttonTxt} onPress={onAddFav}>
+                Add To Favorites
+              </Text>
             </Button>
           </Content>
         </View>
@@ -124,7 +146,7 @@ const styles = StyleSheet.create({
 
   map: {
     width: 300,
-    height: 180,
+    height: 180
   },
 
   image: {
@@ -133,8 +155,8 @@ const styles = StyleSheet.create({
   },
 
   uiIcon: {
-    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
-  }, 
+    color: Platform.OS === "ios" ? "#000000" : "#ffffff"
+  },
 
   title: {
     marginTop: "10%",
