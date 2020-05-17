@@ -50,6 +50,13 @@ const Home = ({ navigation }) => {
   const [drawer, setDrawer] = useState(null);
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const account = useSelector(userSelectors.selectUserAccount);
+  const favoriteList = account.favoriteList;
+
+  console.log(favoriteList);
+
+  const filteredList = beaches.filter(beach =>
+    favoriteList.includes(beach._id)
+  );
 
   //This needs to be called through a dispatch
 
@@ -156,7 +163,7 @@ const Home = ({ navigation }) => {
             <Spinner color="blue" />
           ) : beaches ? (
             <Col style={{ marginTop: 30, marginBottom: 80 }}>
-              {beaches.map(beach => {
+              {filteredList.map(beach => {
                 return (
                   <Card style={styles.beachCard} key={beach._id}>
                     <CardItem style={styles.title}>
