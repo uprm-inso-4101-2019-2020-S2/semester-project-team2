@@ -12,7 +12,7 @@ const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const account = useSelector(userSelectors.selectUserAccount);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const handleSubmit = useCallback(async () => {
     if (email && password) {
       await dispatch(userActions.loginUser({ email, password }));
@@ -22,8 +22,10 @@ const Signin = ({ navigation }) => {
   }, [dispatch, email, password]);
 
   useEffect(() => {
-    if (account) navigation.navigate("Home");
-  }, [dispatch, account]);
+    if (isAuthenticated) {
+      navigation.navigate("Home");
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <View style={styles.container}>
@@ -107,10 +109,11 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "3%",
-    width: 100
+    marginTop: "3%"
   },
   buttonText: {
+    paddingLeft: 35,
+    paddingRight: 35,
     color: COLORS.WHITE,
     fontWeight: "bold"
   },

@@ -5,10 +5,17 @@ import React, {
   Component,
   useRef
 } from "react";
-import { StyleSheet, Text, View, ScrollView, Image, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Platform
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { beachSelectors } from "../../store/selectors";
-import { beachActions } from "../../store/actions";
+import { beachSelectors, userSelectors } from "../../store/selectors";
+import { beachActions, userActions } from "../../store/actions";
 import {
   Card,
   CardItem,
@@ -24,50 +31,39 @@ import {
   Title,
   Drawer,
   Row,
-  Spinner
+  Spinner,
+  Input,
+  Item
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
-const dummyData = [
-  {
-    name: "Balneario/Rincon Town Beach",
-    _id: "1",
-    quality: 30,
-    substance: "Enterococcus",
-    longitude: "18.341000",
-    latitude: "18.341000",
-    waterTemperature: 83,
-    currentWeather: 85,
-    waveHeight: "0.5-1",
-    testedBy: "Harry Rodriguez"
-  },
-  {
-    name: "Steps Beach, Tres Palmas Marine Reserve ",
-    _id: "2",
-    quality: 10,
-    substance: "Enterococcus",
-    longitude: "-67.263000",
-    latitude: "18.347000",
-    waterTemperature: 78,
-    currentWeather: "Partly_Cloudy",
-    waveHeight: "1-2",
-    testedBy: "Harry Rodriguez"
-  }
-];
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 
 const Home = ({ navigation }) => {
+  const location = useSelector(userSelectors.selectUserLocation);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const beaches = useSelector(beachSelectors.selectBeaches);
   const beachesLoading = useSelector(beachSelectors.selectBeachesLoading);
   const [drawer, setDrawer] = useState(null);
+  const [filt, setFilt] = useState("");
+  const [filteredList, setFilteredList] = useState([]);
 
-  //This needs to be called through a ddispatch
+  const list = filteredList.length === 0 ? beaches : filteredList;
 
-  useEffect(() => {
-    onEntry();
-  }, [dispatch]);
+  const onSearch = () => {
+    console.log(filt);
+    if (beaches)
+      setFilteredList(
+        beaches.filter(beach =>
+          beach.name.toLowerCase().includes(filt.toLowerCase())
+        )
+      );
+  };
+
+  //This needs to be called through a dispatch
 
   const onEntry = useCallback(async () => {
     await dispatch(beachActions.getBeaches());
@@ -93,6 +89,97 @@ const Home = ({ navigation }) => {
     [dispatch]
   );
 
+  //Get Location Info
+  const getLocationAsync = useCallback(async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      dispatch(userActions.toggleLocation(1));
+      const currentLocation = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: true
+      });
+
+      dispatch(userActions.setLocation(currentLocation));
+    }
+  }, [dispatch, location]);
+
+  useEffect(() => {
+    onEntry();
+    getLocationAsync();
+  }, [dispatch]);
+
+  const calcQuality = rating => {
+    if (rating == "green") {
+      return (
+        <Content
+          style={{
+            color: "green",
+            alignSelf: "flex-end",
+            borderColor: "green",
+            borderWidth: 1,
+            padding: 3
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "green", textAlign: "right" }}>
+            Good
+          </Text>
+        </Content>
+      );
+    } else if (rating == "yellow") {
+      return (
+        <Content
+          style={{
+            color: "#de8209",
+            alignSelf: "flex-end",
+            borderColor: "#de8209",
+            borderWidth: 1,
+            padding: 3
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "#de8209", textAlign: "right" }}>
+            Medium
+          </Text>
+        </Content>
+      );
+    } else if (rating == "red") {
+      return (
+        <Content
+          style={{
+            color: "red",
+            alignSelf: "flex-end",
+            borderColor: "red",
+            borderWidth: 1,
+            padding: 3
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "red", textAlign: "right" }}>
+            Bad
+          </Text>
+        </Content>
+      );
+    } else {
+      return (
+        <Content
+          style={{
+            color: "gray",
+            alignSelf: "flex-end",
+            borderColor: "gray",
+            borderWidth: 1,
+            padding: 3
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "gray", textAlign: "right" }}>
+            Untested
+          </Text>
+        </Content>
+      );
+    }
+  };
+
+  useEffect(() => {
+    onEntry();
+    getLocationAsync();
+  }, [dispatch]);
+
   // Eventually move this to its' own component
   //We need to change the image witth the data we find
 
@@ -109,7 +196,8 @@ const Home = ({ navigation }) => {
             <Container style={styles.navLinks}>
               <Button
                 transparent
-                onPress={() => navigation.navigate("Favorites")}>
+                onPress={() => navigation.navigate("Favorites")}
+              >
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <Text>Favorites</Text>
               </Button>
@@ -131,7 +219,7 @@ const Home = ({ navigation }) => {
       >
         <Header style={styles.header}>
           <Button transparent onPress={onOpen}>
-            <MaterialIcons style = {styles.uiIcon} name="menu" size={24}/>
+            <MaterialIcons style={styles.uiIcon} name="menu" size={24} />
           </Button>
 
           <Body style={{ alignItems: "center" }}>
@@ -139,9 +227,30 @@ const Home = ({ navigation }) => {
           </Body>
 
           <Button transparent onPress={() => navigation.navigate("Settings")}>
-            <MaterialIcons style = {styles.uiIcon} name="settings" size={24} />
+            <MaterialIcons style={styles.uiIcon} name="settings" size={24} />
           </Button>
         </Header>
+
+        <Item
+          style={{
+            alignSelf: "center",
+            marginTop: "2%"
+          }}
+        >
+          <Input onChangeText={text => setFilt(text)} />
+          <Button
+            onPress={onSearch}
+            rounded
+            style={{ paddingLeft: 10, paddingRight: 10, marginRight: 10 }}
+          >
+            <MaterialIcons
+              name="search"
+              size={24}
+              color={Platform.OS === "ios" ? "#000000" : "#ffffff"}
+            />
+          </Button>
+        </Item>
+
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -149,8 +258,8 @@ const Home = ({ navigation }) => {
             {beachesLoading ? (
               <Spinner color="blue" />
             ) : beaches ? (
-              <Col style={{ marginTop: 30 }}>
-                {dummyData.map(beach => {
+              <Col style={{ marginTop: 30, marginBottom: 80 }}>
+                {list.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
@@ -168,11 +277,9 @@ const Home = ({ navigation }) => {
                       </CardItem>
                       <CardItem>
                         <Left>
-                          <Text> {beach.location}</Text>
+                          <Text>{beach.location}</Text>
                         </Left>
-                        <Button bordered success>
-                          <Text style={styles.btntxt}>Quality: Good</Text>
-                        </Button>
+                        <Content>{calcQuality(beach.quality)}</Content>
                       </CardItem>
                     </Card>
                   );
@@ -208,14 +315,15 @@ const styles = StyleSheet.create({
   },
 
   uiIcon: {
-    color: Platform.OS === 'ios' ? "#000000" : "#ffffff"
+    color: Platform.OS === "ios" ? "#000000" : "#ffffff"
   },
-   
+
   btntxt: {
     color: "green",
     width: 100,
     textAlign: "center"
   },
+
   navLinks: {
     padding: 60,
     marginRight: "40%",

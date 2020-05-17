@@ -6,6 +6,7 @@ const keys = require("../../services/config/mongo");
 
 // Beach Model
 const User = require("../../models/user");
+const Beach = require("../../models/beach");
 
 // Load input validation
 const validateRegisterInput = require("../validation/register");
@@ -17,15 +18,6 @@ const validateLoginInput = require("../validation/login");
 router.get("/", (req, res) => {
   User.find()
     .sort({ name: 1 })
-    .then(user => res.json(user))
-    .catch(err => console.log(err));
-});
-
-// @route   GET api/user/userID
-// @desc    Get user with id equal to userID
-// @access  Public
-router.get("/:userID", (req, res) => {
-  User.findById(req.params.userID)
     .then(user => res.json(user))
     .catch(err => console.log(err));
 });
@@ -51,7 +43,6 @@ router.post("/register", (req, res) => {
         password: req.body.password
       });
       // Hash password before saving in database
-      console.log(newUser);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -102,6 +93,7 @@ router.post("/login", (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
               res.json({
+                account: user,
                 success: true,
                 token: "Token: " + token
               });
@@ -127,6 +119,32 @@ router.put("/:userID", (req, res) => {
       .then(user => res.json(user))
       .catch(err => console.log(err));
   });
+});
+
+// @route   POST api/user/:userID/:beachID
+// @desc    Update favoriteList
+// @acceess Public
+router.put("/:userID/:beachID", (req, res) => {
+  const { userID, beachID } = req.params;
+
+  User.findById(userID)
+    .then(user => {
+      const { favoriteList, _id, email, password } = user;
+
+      if (favoriteList.includes(beachID)) return;
+
+      favoriteList.push(beachID);
+
+      const newUser = new User({
+        _id,
+        email,
+        password,
+        favoriteList
+      });
+
+      return User.findByIdAndUpdate(_id, newUser);
+    })
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
