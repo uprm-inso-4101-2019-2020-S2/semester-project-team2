@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+
 import { View, Text } from "react-native";
+import { Spinner } from "native-base";
+
 import Routes from "./routes/";
 import { Provider } from "react-redux";
 import store from "./services/redux";
@@ -7,8 +10,9 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function App() {
+  //hide the dev error warnings from the app.
+  console.disableYellowBox = true;
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     Font.loadAsync({
@@ -29,6 +33,16 @@ export default function App() {
       </Provider>
     );
   } else {
-    return <Text>Loading...</Text>;
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner color="blue" />
+      </View>
+    );
   }
 }

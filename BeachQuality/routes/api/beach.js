@@ -1,9 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 
 // Beach Model
 const Beach = require("../../models/beach");
+
+// @route   GET api/beach/populate
+// @desc    Populates database with beaches
+// @access  Private
+
+router.get("/getData", (req, res) => {
+  Beach.find()
+    .sort({ name: 1 })
+    .then((beach) => res.json(beach))
+    .catch((err) => console.log(err));
+});
 
 // @route   GET api/beach
 // @desc    Get all Beach
@@ -12,8 +22,8 @@ const Beach = require("../../models/beach");
 router.get("/", (req, res) => {
   Beach.find()
     .sort({ name: 1 })
-    .then(beach => res.json(beach))
-    .catch(err => console.log(err));
+    .then((beach) => res.json(beach))
+    .catch((err) => console.log(err));
 });
 
 // @route   GET api/beach/:beachID
@@ -21,8 +31,8 @@ router.get("/", (req, res) => {
 // @access  Public
 router.get("/:beachID", (req, res) => {
   Beach.findById(req.params.beachID)
-    .then(beach => res.json(beach))
-    .catch(err => console.log(err));
+    .then((beach) => res.json(beach))
+    .catch((err) => console.log(err));
 });
 
 // @route   DELETE api/beach/deleteBeach/:beachID
@@ -30,10 +40,40 @@ router.get("/:beachID", (req, res) => {
 // @access  Private
 router.delete("/deleteBeach/:beachID", (req, res) => {
   Beach.findByIdAndDelete(req.params.beachID)
-  .then(beach => res.json(beach))
-  .catch(err => console.log(err));
+    .then((beach) => res.json(beach))
+    .catch((err) => console.log(err));
 });
 
+// @route   POST api/beach/addBeach
+// @desc    Add new Beach to DB
+// @access  Private
+
+router.post(
+  "/addBeach/:beachName/:beachImage/:beachLocation/:beachQuality",
+  (req, res) => {
+    Beach.findOne({ name: req.params.beachName })
+      .then((beach) => {
+        const newBeach = {
+          name: req.params.beachName,
+          image: req.params.beachImage,
+          location: req.params.beachLocation,
+          quality: req.params.beachQuality,
+        };
+
+        if (!beach) {
+          newBeach
+            .save()
+            .then((beach2) => res.json(beach2))
+            .catch((err) => console.log(err));
+        } else {
+          Beach.findOneAndUpdate({ _id: beach._id }, newBeach)
+            // .then(() => console.log(`${beach.name} updated!`))
+            .catch((err) => console.error(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+);
 
 // @route   POST api/beach/addBeach
 // @desc    Add new Beach to DB
@@ -43,27 +83,15 @@ router.post("/addBeach", (req, res) => {
     name: req.body.name,
     image: req.body.image,
     location: req.body.location,
-    quality: req.body.quality
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    quality: req.body.quality,
   });
 
   newBeach
     .save()
-    .then(beach => res.json(beach))
-    .catch(err => console.log(err));
-});
-
-// @route   GET api/beach/fetchWeeklyUpdate
-// @desc    Fetch Weekly Update
-// @access  Private
-router.get("/fetchWeeklyUpdate", async (req, res) => {
-  const beachData = [];
-  const fetchData = await axios
-    .get(
-      "https://mmvk4falrj.execute-api.us-west-2.amazonaws.com/v1/history/lab/4"
-    )
-    .then(res => (beachData = res.data))
-    .catch(err => console.log(err));
-  console.log(beachData);
+    .then((beach) => res.json(beach))
+    .catch((err) => console.log(err));
 });
 
 // @route   PUT api/beach/:beachID
@@ -74,10 +102,10 @@ router.put("/updateBeach/:beachID", (req, res) => {
   Beach.findByIdAndUpdate(req.params.beachID, updBeach)
     .then(() => {
       Beach.findById(req.params.beachID)
-        .then(beach => res.json(beach))
-        .catch(err => console.log(err))
+        .then((beach) => res.json(beach))
+        .catch((err) => console.log(err));
     })
-    .catch(err => console.error(err))
+    .catch((err) => console.error(err));
 });
 
 module.exports = router;

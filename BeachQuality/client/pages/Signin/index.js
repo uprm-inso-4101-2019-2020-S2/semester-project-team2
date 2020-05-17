@@ -4,28 +4,33 @@ import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
 import { useDispatch } from "react-redux";
-import { userSelectors } from "react-redux";
-import { userSelctors } from "../../store/selectors";
+import { useSelector } from "react-redux";
+import { userSelectors } from "../../store/selectors";
 import { userActions } from "../../store/actions";
+
 const Signin = ({ navigation }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cPassword, setCPassword] = useState("");
-
-  const handleSubmit = useCallback(() => {
-    console.log(email, password, cPassword);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+  const handleSubmit = useCallback(async () => {
     if (email && password) {
-      dispatch(userActions.registerUser({ email, password }));
+      await dispatch(userActions.loginUser({ email, password }));
     } else {
       console.log("Can't have empty fields!");
     }
-  }, [dispatch, email, password, cPassword]);
+  }, [dispatch, email, password]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigation.navigate("Home");
+    }
+  }, [dispatch, isAuthenticated]);
 
   return (
     <View style={styles.container}>
       <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
-        <Text style={styles.title}>Signin</Text>
+        <Text style={styles.title}>Sign in</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
             <Input
@@ -104,10 +109,11 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "3%",
-    width: 100
+    marginTop: "3%"
   },
   buttonText: {
+    paddingLeft: 35,
+    paddingRight: 35,
     color: COLORS.WHITE,
     fontWeight: "bold"
   },

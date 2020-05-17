@@ -13,3 +13,7 @@ export const selectBeachesLoading = createSelector(selectBeach, beach => {
 export const selectBeachError = createSelector(selectBeach, beacj => {
   return beach.err;
 });
+
+export const selectCurrentBeach = createSelector(selectBeach, beach => {
+  return beach.currentBeach;
+});
