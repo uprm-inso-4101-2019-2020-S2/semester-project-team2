@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../services/config/mongo");
+const _ = require("underscore");
 
 // Beach Model
 const User = require("../../models/user");
@@ -58,7 +59,7 @@ router.post("/register", (req, res) => {
 });
 
 // @route   POST api/user/login
-// @desc    User Account Login
+// @desc    Us
 // @access  Public
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
@@ -124,11 +125,11 @@ router.put("/:userID", (req, res) => {
 // @route   POST api/user/:userID/:beachID
 // @desc    Update favoriteList
 // @acceess Public
-router.put("/:userID/:beachID", (req, res) => {
+router.put("/:userID/:beachID/add", async (req, res) => {
   const { userID, beachID } = req.params;
 
-  User.findById(userID)
-    .then(user => {
+  await User.findById(userID)
+    .then(async user => {
       const { favoriteList, _id, email, password } = user;
 
       if (favoriteList.includes(beachID)) return;
@@ -142,7 +143,50 @@ router.put("/:userID/:beachID", (req, res) => {
         favoriteList
       });
 
-      return User.findByIdAndUpdate(_id, newUser);
+      return await User.findByIdAndUpdate(_id, newUser).then(user =>
+        res.json(user)
+      );
+    })
+    .catch(err => console.log(err));
+});
+
+// @route   GET api/user/userID
+// @desc    Update an existing user
+// @acceess Public
+router.get("/:userID", (req, res) => {
+  const { userID } = req.params;
+
+  User.findById(userID)
+    .then(user => {
+      return res.json(user);
+    })
+    .catch(err => console.log(err));
+});
+
+// @route   POST api/user/:userID/:beachID
+// @desc    Update favoriteList
+// @acceess Public
+router.put("/:userID/:beachID/remove", async (req, res) => {
+  const { userID, beachID } = req.params;
+
+  await User.findById(userID)
+    .then(async user => {
+      const { favoriteList, _id, email, password } = user;
+      console.log("hello");
+      if (!favoriteList.includes(beachID)) return;
+
+      var temp = _.difference(favoriteList, [beachID]);
+
+      const newUser = new User({
+        _id,
+        email,
+        password,
+        favoriteList: temp
+      });
+
+      return await User.findByIdAndUpdate(_id, newUser).then(user =>
+        res.json(user)
+      );
     })
     .catch(err => console.log(err));
 });

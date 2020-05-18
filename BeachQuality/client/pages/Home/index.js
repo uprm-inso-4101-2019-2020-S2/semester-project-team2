@@ -13,6 +13,7 @@ import {
   Image,
   Platform
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { beachSelectors, userSelectors } from "../../store/selectors";
 import { beachActions, userActions } from "../../store/actions";
@@ -50,11 +51,13 @@ const Home = ({ navigation }) => {
   const [drawer, setDrawer] = useState(null);
   const [filt, setFilt] = useState("");
   const [filteredList, setFilteredList] = useState([]);
+  const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+  const favoriteList =
+    useSelector(userSelectors.selectUserAccount)?.favoriteList || [];
 
   const list = filteredList.length === 0 ? beaches : filteredList;
 
   const onSearch = () => {
-    console.log(filt);
     if (beaches)
       setFilteredList(
         beaches.filter(beach =>
@@ -78,7 +81,7 @@ const Home = ({ navigation }) => {
   };
 
   const onLogout = useCallback(() => {
-    //logout function
+    dispatch(userActions.logoutUser());
   }, [dispatch]);
 
   const onSelect = useCallback(
@@ -103,9 +106,10 @@ const Home = ({ navigation }) => {
   }, [dispatch, location]);
 
   useEffect(() => {
+    if (!isAuthenticated) navigation.goBack();
     onEntry();
     getLocationAsync();
-  }, [dispatch]);
+  }, [dispatch, isAuthenticated]);
 
   const calcQuality = rating => {
     if (rating == "green") {
@@ -192,24 +196,42 @@ const Home = ({ navigation }) => {
         tapToClose={true}
         onClose={onClose}
         content={
-          <Container style={{ flex: 1, alignItems: "center" }}>
+          <Container style={{ flex: 1 }}>
             <Container style={styles.navLinks}>
               <Button
+                style={styles.link}
                 transparent
-                onPress={() => navigation.navigate("Favorites")}
+                onPress={() => {
+                  onClose();
+                  navigation.navigate("Favorites");
+                }}
               >
                 <MaterialIcons name="favorite" size={24} color="black" />
                 <Text>Favorites</Text>
               </Button>
-              <Button transparent onPress={() => navigation.navigate("About")}>
+              <Button
+                style={styles.link}
+                transparent
+                onPress={() => {
+                  onClose();
+                  navigation.navigate("About");
+                }}
+              >
                 <MaterialIcons name="info" size={24} color="black" />
                 <Text>About</Text>
               </Button>
-              <Button transparent onPress={() => navigation.navigate("Terms")}>
+              <Button
+                style={styles.link}
+                transparent
+                onPress={() => {
+                  onClose();
+                  navigation.navigate("Terms");
+                }}
+              >
                 <Entypo name="text-document" size={24} color="black" />
                 <Text>Terms</Text>
               </Button>
-              <Button transparent onPress={onLogout}>
+              <Button style={styles.link} transparent onPress={onLogout}>
                 <Entypo name="log-out" size={24} color="black" />
                 <Text>Logout</Text>
               </Button>
@@ -237,18 +259,19 @@ const Home = ({ navigation }) => {
             marginTop: "2%"
           }}
         >
-          <Input onChangeText={text => setFilt(text)} />
-          <Button
-            onPress={onSearch}
-            rounded
-            style={{ paddingLeft: 10, paddingRight: 10, marginRight: 10 }}
-          >
-            <MaterialIcons
-              name="search"
-              size={24}
-              color={Platform.OS === "ios" ? "#000000" : "#ffffff"}
-            />
-          </Button>
+          <Input
+            onChangeText={text => {
+              setFilt(text);
+              onSearch();
+            }}
+          />
+
+          <MaterialIcons
+            name="search"
+            size={24}
+            color="black"
+            style={{ marginRight: "3%" }}
+          />
         </Item>
 
         <View
@@ -258,19 +281,33 @@ const Home = ({ navigation }) => {
             {beachesLoading ? (
               <Spinner color="blue" />
             ) : beaches ? (
-              <Col style={{ marginTop: 30, marginBottom: 80 }}>
+              <Col style={{ marginTop: 30, marginBottom: 300 }}>
                 {list.map(beach => {
                   return (
                     <Card style={styles.beachCard} key={beach._id}>
                       <CardItem style={styles.title}>
-                        <Text>{beach.name}</Text>
+                        <Left>
+                          <Text>
+                            {beach.name.length > 15
+                              ? `${beach.name.substring(0, 15)}...`
+                              : beach.name}
+                          </Text>
+                        </Left>
+                        <Right>
+                          {favoriteList.includes(beach._id) ? (
+                            <MaterialIcons
+                              name="favorite"
+                              size={24}
+                              color="red"
+                            />
+                          ) : null}
+                        </Right>
                       </CardItem>
 
                       <CardItem button onPress={() => onSelect(beach)}>
                         <Image
                           source={{
-                            uri:
-                              "http://cdn.c.photoshelter.com/img-get/I0000x8LjeqlKP0o/s/860/860/Playa-Buye-Cabo-Rojo-P-R-DSC0091.jpg"
+                            uri: beach.image
                           }}
                           style={styles.beachImage}
                         />
@@ -325,9 +362,16 @@ const styles = StyleSheet.create({
   },
 
   navLinks: {
+    display: "flex",
     padding: 60,
-    marginRight: "40%",
     marginTop: 20
+  },
+  link: {
+    width: 100,
+
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
   }
 });
 

@@ -13,9 +13,12 @@ const {
   ADD_FAVORITE,
   ADD_FAVORITE_SUCCESS,
   ADD_FAVORITE_FAILED,
-  FETCH_USER_DATA,
-  FETCH_USER_DATA_FAILED,
-  FETCH_USER_DATA_SUCCESS
+  FETCH_USER_INFO,
+  FETCH_USER_INFO_FAILED,
+  FETCH_USER_INFO_SUCCESS,
+  REMOVE_FAVORITE,
+  REMOVE_FAVORITE_FAILED,
+  REMOVE_FAVORITE_SUCCESS
 } = userActionTypes;
 
 const initialState = {
@@ -40,6 +43,7 @@ const userReducer = (state = initialState, action) => {
     }
 
     case REGISTER_USER_FAILED: {
+      console.log(action.payload);
       return {
         ...state,
         userLoading: false,
@@ -80,7 +84,6 @@ const userReducer = (state = initialState, action) => {
     }
 
     case LOGIN_USER_FAILED: {
-      console.log(action.payload);
       return {
         ...state,
         userLoading: false,
@@ -131,6 +134,51 @@ const userReducer = (state = initialState, action) => {
         ...state,
         userLoading: false,
         err: action.payload
+      };
+    }
+
+    case FETCH_USER_INFO: {
+      return {
+        ...state,
+        userLoading: true
+      };
+    }
+
+    case FETCH_USER_INFO_SUCCESS: {
+      return {
+        ...state,
+        account: action.payload,
+        userLoading: false
+      };
+    }
+
+    case FETCH_USER_INFO_FAILED: {
+      return {
+        ...state,
+        err: action.payload,
+        userLoading: false
+      };
+    }
+
+    case REMOVE_FAVORITE: {
+      return {
+        ...state,
+        userLoading: true
+      };
+    }
+
+    case REMOVE_FAVORITE_SUCCESS: {
+      return {
+        ...state,
+        userLoading: false
+      };
+    }
+
+    case REMOVE_FAVORITE_FAILED: {
+      return {
+        ...state,
+        err: action.payload,
+        userLoading: false
       };
     }
 

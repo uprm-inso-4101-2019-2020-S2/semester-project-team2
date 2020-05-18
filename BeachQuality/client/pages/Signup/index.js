@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, Alert } from "react-native";
 import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
@@ -13,24 +13,33 @@ const Signup = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+  const error = useSelector(userSelectors.selectUserErr);
+  const [submit, setSubmit] = useState(false);
 
-  const handleSubmit = useCallback(async () => {
-    console.log(email, password, cPassword);
+  const handleSubmit = useCallback(() => {
     if (email && password && cPassword) {
       if (password === cPassword)
-        await dispatch(userActions.registerUser({ email, password }));
-      else console.log("Passwords don't match!");
+        dispatch(userActions.registerUser({ email, password }));
+      else Alert.alert("Error", "Passwords don't match.");
     } else {
-      console.log("Can't have empty fields!");
+      Alert.alert("Error", "Can't have empty fields.");
     }
+
+    setSubmit(true);
   }, [dispatch, email, password, cPassword]);
 
   useEffect(() => {
+    console.log(submit);
     // console.log(account);
+    console.log("hello");
+    if (error) {
+      Alert.alert("Error", "An account with this password already exists.");
+      setSubmit(false);
+    }
     if (isAuthenticated) navigation.navigate("Home");
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, submit]);
 
-  if (!account) {
+  if (!isAuthenticated) {
     return (
       <View style={styles.container}>
         <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>

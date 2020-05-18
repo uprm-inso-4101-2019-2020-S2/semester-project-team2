@@ -33,9 +33,14 @@ import {
   Row,
   Spinner,
   Input,
-  Item
+  Item,
+  Picker
 } from "native-base";
-import { MaterialIcons, Entypo } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  Entypo,
+  MaterialCommunityIcons
+} from "@expo/vector-icons";
 
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
@@ -50,15 +55,22 @@ const Home = ({ navigation }) => {
   const [drawer, setDrawer] = useState(null);
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const account = useSelector(userSelectors.selectUserAccount);
-  const favoriteList = account.favoriteList;
-
-  console.log(favoriteList);
+  const favoriteList = account?.favoriteList || [];
+  const [del, setDel] = useState(false);
 
   const filteredList = beaches.filter(beach =>
     favoriteList.includes(beach._id)
   );
 
   //This needs to be called through a dispatch
+
+  const onDelete = useCallback(
+    async id => {
+      await dispatch(userActions.removeFavorite(id));
+      setDel(true);
+    },
+    [dispatch, del]
+  );
 
   const onSelect = useCallback(
     async beach => {
@@ -67,6 +79,14 @@ const Home = ({ navigation }) => {
     },
     [dispatch]
   );
+
+  const onEntry = useCallback(() => {
+    dispatch(userActions.fetchUserAccount());
+  }, [dispatch, favoriteList]);
+
+  useEffect(() => {
+    onEntry();
+  }, [dispatch, del]);
 
   const calcQuality = rating => {
     if (rating == "green") {
@@ -161,13 +181,20 @@ const Home = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {beachesLoading ? (
             <Spinner color="blue" />
-          ) : beaches ? (
+          ) : filteredList.length > 0 ? (
             <Col style={{ marginTop: 30, marginBottom: 80 }}>
               {filteredList.map(beach => {
                 return (
                   <Card style={styles.beachCard} key={beach._id}>
                     <CardItem style={styles.title}>
-                      <Text>{beach.name}</Text>
+                      <Left>
+                        <Text>{beach.name}</Text>
+                      </Left>
+                      <Right>
+                        <Button transparent onPress={() => onDelete(beach._id)}>
+                          <Text>remove</Text>
+                        </Button>
+                      </Right>
                     </CardItem>
 
                     <CardItem button onPress={() => onSelect(beach)}>
@@ -189,7 +216,16 @@ const Home = ({ navigation }) => {
                 );
               })}
             </Col>
-          ) : null}
+          ) : (
+            <Text style={{ fontSize: 20, marginTop: "20%" }}>
+              No favorites
+              <MaterialCommunityIcons
+                name="heart-broken"
+                size={24}
+                color="black"
+              />
+            </Text>
+          )}
         </ScrollView>
       </View>
     </Container>

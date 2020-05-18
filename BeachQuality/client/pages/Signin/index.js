@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, Alert } from "react-native";
 import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
@@ -13,19 +13,27 @@ const Signin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
+  const error = useSelector(userSelectors.selectUserErr);
+  const [submit, setSubmit] = useState(false);
+
   const handleSubmit = useCallback(async () => {
     if (email && password) {
       await dispatch(userActions.loginUser({ email, password }));
     } else {
-      console.log("Can't have empty fields!");
+      Alert.alert("Error", "Can't have empty fields.");
     }
+    setSubmit(true);
   }, [dispatch, email, password]);
 
   useEffect(() => {
+    setSubmit(false);
+    if (error) {
+      Alert.alert("Error", "Email/password is incorrect.");
+    }
     if (isAuthenticated) {
       navigation.navigate("Home");
     }
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, submit]);
 
   return (
     <View style={styles.container}>

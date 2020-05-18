@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { Alert } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { userActions } from "../../store/actions";
 import { useDispatch } from "react-redux";
+import { FontAwesome } from "@expo/vector-icons";
 import {
   Card,
   CardItem,
@@ -36,11 +38,26 @@ const Beach = ({ navigation }) => {
   const dispatch = useDispatch();
   const currentBeach = useSelector(beachSelectors.selectCurrentBeach);
   const userLocation = useSelector(userSelectors.selectUserLocation);
+  const useLocation = useSelector(userSelectors.selectToggleLocation);
+  const favoriteList = useSelector(userSelectors.selectUserAccount)
+    .favoriteList;
+
+  const [addFave, setAddFave] = useState(false);
 
   const { _id, name, quality, location, latitude, longitude } = currentBeach;
 
+  const onEntry = useCallback(async () => {
+    return await dispatch(userActions.fetchUserAccount());
+  }, [dispatch, favoriteList]);
+
+  useEffect(() => {
+    console.log("getting called");
+    onEntry();
+  }, [dispatch, addFave]);
+
   const onAddFav = useCallback(async () => {
-    dispatch(userActions.addFavorite(_id));
+    await dispatch(userActions.addFavorite(_id));
+    setAddFave(true);
   }, [dispatch]);
   const calcQuality = rating => {
     if (rating == "green") {
@@ -109,10 +126,10 @@ const Beach = ({ navigation }) => {
             <Text style={styles.info}>Quality: {calcQuality(quality)}</Text>
             <Text style={styles.info}>Location: {location}</Text>
 
-            <Button style={styles.button}>
-              <Text
-                style={styles.buttonTxt}
-                onPress={() => {
+            <Button
+              style={styles.button}
+              onPress={() => {
+                if (useLocation === 1) {
                   Platform.OS === "ios"
                     ? Linking.openURL(
                         `maps://app?saddr=${userLocation.latitude}+${useLocation.longitude}&daddr=${latitude}+${longitude}`
@@ -120,16 +137,37 @@ const Beach = ({ navigation }) => {
                     : Linking.openURL(
                         `google.navigation:q=${latitude}+${longitude}`
                       );
-                }}
-              >
-                Get Directions
-              </Text>
+                } else {
+                  Alert.alert(
+                    "Location disable",
+                    "your location is disabled. You can turn it back on in the settings."
+                  );
+                }
+              }}
+            >
+              <Text style={styles.buttonTxt}>Get Directions</Text>
             </Button>
-            <Button style={styles.button}>
-              <Text style={styles.buttonTxt} onPress={onAddFav}>
-                Add To Favorites
-              </Text>
-            </Button>
+            {!favoriteList.includes(_id) ? (
+              <Button style={styles.button} onPress={onAddFav}>
+                <Text style={styles.buttonTxt}>Add To Favorites</Text>
+              </Button>
+            ) : (
+              <Card style={{ backgroundColor: "pink", marginTop: "3%" }}>
+                <CardItem
+                  style={{ alignSelf: "center", backgroundColor: "pink" }}
+                >
+                  <FontAwesome
+                    name="heart"
+                    size={24}
+                    style={{ marginRight: "2%" }}
+                    color="red"
+                  />
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    Added
+                  </Text>
+                </CardItem>
+              </Card>
+            )}
           </Content>
         </View>
       </ScrollView>
@@ -181,7 +219,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonTxt: {
-    color: "white"
+    color: "white",
+    fontWeight: "bold"
   }
 });
 
