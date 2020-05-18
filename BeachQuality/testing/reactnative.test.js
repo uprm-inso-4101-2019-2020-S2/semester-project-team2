@@ -13,18 +13,17 @@ test("<App JSON>", () => {
 
 /*
 test("<PAGES>", () => {
-    const PAGES = require("../client/pages/index");
+    const PAGES = require("../client/pages");
     expect(Object.keys(PAGES).length).toBe(8);
 }); */
 
-/*
 test("<Ansi Align>", () => {
-    const al = require("../node_modules/ansi-align");
-    const opts = {align: "left"};
+    const ansiAlign = require("../node_modules/ansi-align");
+    const opts_left = {align: "left"};
     const text = "Lorem Ipsum";
-    const rtn_txt = ansiAlign(text, opts);
+    const rtn_txt = ansiAlign(text, opts_left);
     expect(rtn_txt).toEqual(text);
-}); */
+});
 
 test("<Assets>", () => {
     const fs = require("fs");
