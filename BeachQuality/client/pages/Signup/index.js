@@ -15,25 +15,29 @@ const Signup = ({ navigation }) => {
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const error = useSelector(userSelectors.selectUserErr);
   const [submit, setSubmit] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
   const handleSubmit = useCallback(() => {
     if (email && password && cPassword) {
-      if (password === cPassword)
+      if (password === cPassword) {
         dispatch(userActions.registerUser({ email, password }));
-      else Alert.alert("Error", "Passwords don't match.");
+        setDisplayError(true);
+      } else {
+        Alert.alert("Error", "Passwords don't match.");
+        setDisplayError(false);
+      }
     } else {
       Alert.alert("Error", "Can't have empty fields.");
+      setDisplayError(false);
     }
 
     setSubmit(true);
   }, [dispatch, email, password, cPassword]);
 
   useEffect(() => {
-    console.log(submit);
-    // console.log(account);
-    console.log("hello");
-    if (error) {
-      Alert.alert("Error", "An account with this password already exists.");
+    if (error && displayError) {
+      Alert.alert("Error", error.message);
+      setDisplayError(false);
       setSubmit(false);
     }
     if (isAuthenticated) navigation.navigate("Home");
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   link: {
-    color: "orange"
+    color: "#33ffcc"
   },
 
   input: {

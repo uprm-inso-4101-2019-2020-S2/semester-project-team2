@@ -1,5 +1,12 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { View, Text, ImageBackground, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  Alert,
+  Dimensions
+} from "react-native";
 import { SIGNUP_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
@@ -13,22 +20,27 @@ const Signin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
-  const error = useSelector(userSelectors.selectUserErr);
+  var error = useSelector(userSelectors.selectUserErr);
   const [submit, setSubmit] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     if (email && password) {
       await dispatch(userActions.loginUser({ email, password }));
+      setDisplayError(true);
     } else {
       Alert.alert("Error", "Can't have empty fields.");
+      setDisplayError(false);
     }
+
     setSubmit(true);
   }, [dispatch, email, password]);
 
   useEffect(() => {
     setSubmit(false);
-    if (error) {
+    if (error && displayError) {
       Alert.alert("Error", "Email/password is incorrect.");
+      setDisplayError(false);
     }
     if (isAuthenticated) {
       navigation.navigate("Home");
@@ -37,7 +49,11 @@ const Signin = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
+      <ImageBackground
+        style={styles.image}
+        source={SIGNUP_BACKGROUND}
+        style={styles.image}
+      >
         <Text style={styles.title}>Sign in</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
@@ -60,8 +76,7 @@ const Signin = ({ navigation }) => {
             />
           </Item>
 
-          <Text style={[styles.text, styles.margin]}></Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, styles.margin]}>
             Don't have an account?{" "}
             <Text
               style={styles.link}
@@ -100,7 +115,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%"
   },
   link: {
-    color: "orange"
+    color: "#33ffcc"
   },
 
   input: {
@@ -131,6 +146,11 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.WHITE,
     fontWeight: "bold"
+  },
+  image: {
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%"
   }
 });
 
