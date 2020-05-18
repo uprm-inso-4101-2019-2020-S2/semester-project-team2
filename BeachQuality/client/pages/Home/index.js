@@ -106,7 +106,7 @@ const Home = ({ navigation }) => {
   }, [dispatch, location]);
 
   useEffect(() => {
-    if (!isAuthenticated) navigation.goBack();
+    if (!isAuthenticated) navigation.navigate("Signin");
     onEntry();
     getLocationAsync();
   }, [dispatch, isAuthenticated]);
@@ -278,51 +278,47 @@ const Home = ({ navigation }) => {
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <ScrollView showsVerticalScrollIndicator={false}>
-            {beachesLoading ? (
-              <Spinner color="blue" />
-            ) : beaches ? (
-              <Col style={{ marginTop: 30, marginBottom: 300 }}>
-                {list.map(beach => {
-                  return (
-                    <Card style={styles.beachCard} key={beach._id}>
-                      <CardItem style={styles.title}>
-                        <Left>
-                          <Text>
-                            {beach.name.length > 15
-                              ? `${beach.name.substring(0, 15)}...`
-                              : beach.name}
-                          </Text>
-                        </Left>
-                        <Right>
-                          {favoriteList.includes(beach._id) ? (
-                            <MaterialIcons
-                              name="favorite"
-                              size={24}
-                              color="red"
-                            />
-                          ) : null}
-                        </Right>
-                      </CardItem>
+            <Col style={{ marginTop: 30, marginBottom: 300 }}>
+              {list.map(beach => {
+                return (
+                  <Card style={styles.beachCard} key={beach._id}>
+                    <CardItem style={styles.title}>
+                      <Left>
+                        <Text>
+                          {beach.name.length > 15
+                            ? `${beach.name.substring(0, 15)}...`
+                            : beach.name}
+                        </Text>
+                      </Left>
+                      <Right>
+                        {favoriteList.includes(beach._id) ? (
+                          <MaterialIcons
+                            name="favorite"
+                            size={24}
+                            color="red"
+                          />
+                        ) : null}
+                      </Right>
+                    </CardItem>
 
-                      <CardItem button onPress={() => onSelect(beach)}>
-                        <Image
-                          source={{
-                            uri: beach.image
-                          }}
-                          style={styles.beachImage}
-                        />
-                      </CardItem>
-                      <CardItem>
-                        <Left>
-                          <Text>{beach.location}</Text>
-                        </Left>
-                        <Content>{calcQuality(beach.quality)}</Content>
-                      </CardItem>
-                    </Card>
-                  );
-                })}
-              </Col>
-            ) : null}
+                    <CardItem button onPress={() => onSelect(beach)}>
+                      <Image
+                        source={{
+                          uri: beach.image
+                        }}
+                        style={styles.beachImage}
+                      />
+                    </CardItem>
+                    <CardItem>
+                      <Left>
+                        <Text>{beach.location}</Text>
+                      </Left>
+                      <Content>{calcQuality(beach.quality)}</Content>
+                    </CardItem>
+                  </Card>
+                );
+              })}
+            </Col>
           </ScrollView>
         </View>
       </Drawer>

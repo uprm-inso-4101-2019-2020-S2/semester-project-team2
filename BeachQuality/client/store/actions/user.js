@@ -8,6 +8,7 @@ import { userActionTypes } from "./types";
 const {
   REGISTER_USER,
   REGISTER_USER_FAILED,
+  REGISTER_USER_SUCCESS,
   SET_USER_LOCATION,
   TOGGLE_LOCATION,
   LOGIN_USER,
@@ -30,9 +31,12 @@ const {
 // Register Action
 export const registerUser = user => async dispatch => {
   dispatch({ type: REGISTER_USER });
-  await axios.post(regUserRef, user).then(() => {
-    loginUser(user);
-  });
+  await axios
+    .post(regUserRef, user)
+    .then(res => {
+      dispatch({ type: REGISTER_USER_SUCCESS, payload: res });
+    })
+    .catch(err => dispatch({ type: REGISTER_USER_FAILED, payload: err }));
 };
 // Fetch Location Action
 export const setLocation = location => async dispatch => {

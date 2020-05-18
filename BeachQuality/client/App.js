@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import { View, Text } from "react-native";
-import { Spinner } from "native-base";
-
+import Spinner from "react-native-loading-spinner-overlay";
 import Routes from "./routes/";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./services/redux";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,7 +12,6 @@ export default function App() {
   //hide the dev error warnings from the app.
   console.disableYellowBox = true;
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -41,7 +39,7 @@ export default function App() {
           justifyContent: "center"
         }}
       >
-        <Spinner color="blue" />
+        <Spinner visible={isLoading} />
       </View>
     );
   }

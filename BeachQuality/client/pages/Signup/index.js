@@ -15,103 +15,99 @@ const Signup = ({ navigation }) => {
   const isAuthenticated = useSelector(userSelectors.selectIsAuthenticated);
   const error = useSelector(userSelectors.selectUserErr);
   const [submit, setSubmit] = useState(false);
-  const [displayError, setDisplayError] = useState(false);
+  const [showErr, setShowErr] = useState(false);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (email && password && cPassword) {
-      if (password === cPassword) {
-        dispatch(userActions.registerUser({ email, password }));
-        setDisplayError(true);
+      if (cPassword === password) {
+        console.log(email, password);
+        await dispatch(userActions.registerUser({ email, password }));
+        setShowErr(true);
       } else {
-        Alert.alert("Error", "Passwords don't match.");
-        setDisplayError(false);
+        Alert.alert("Mismatch", "Passwords don't match.");
+        setShowErr(false);
       }
     } else {
-      Alert.alert("Error", "Can't have empty fields.");
-      setDisplayError(false);
+      Alert.alert("Empty", "Cannot have empty fields.");
+      setShowErr(false);
     }
 
     setSubmit(true);
-  }, [dispatch, email, password, cPassword]);
+  }, [dispatch, email, password, cPassword, submit]);
 
   useEffect(() => {
-    if (error && displayError) {
-      Alert.alert("Error", error.message);
-      setDisplayError(false);
-      setSubmit(false);
+    setSubmit(false);
+
+    if (error && showErr) {
+      Alert.alert("Account", "Account already exists.");
+      setShowErr(false);
     }
-    if (isAuthenticated) navigation.navigate("Home");
+    if (isAuthenticated) {
+      navigation.navigate("Home");
+    }
   }, [dispatch, submit]);
 
-  if (!isAuthenticated) {
-    return (
-      <View style={styles.container}>
-        <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
-          <Text style={styles.title}>Signup</Text>
-          <Form style={styles.form}>
-            <Item style={styles.input}>
-              <Input
-                name="email"
-                placeholder="Email"
-                onChangeText={text => {
-                  setEmail(text);
-                }}
-              />
-            </Item>
-            <Item style={styles.input}>
-              <Input
-                secureTextEntry={true}
-                name="password"
-                placeholder="Password"
-                onChangeText={text => {
-                  setPassword(text);
-                }}
-              />
-            </Item>
-            <Item style={styles.input}>
-              <Input
-                secureTextEntry={true}
-                name="cPassword"
-                placeholder="Confirm password"
-                onChangeText={text => {
-                  setCPassword(text);
-                }}
-              />
-            </Item>
-            <Text style={[styles.text, styles.margin]}>
-              <Text
-                style={styles.link}
-                onPress={() => navigation.navigate("Terms")}
-              >
-                Terms and service
-              </Text>
-            </Text>
-            <Text style={styles.text}>
-              Already have an account?{" "}
-              <Text style={styles.link} onPress={() => navigation.goBack()}>
-                Signin
-              </Text>
-            </Text>
+  return (
+    <View style={styles.container}>
+      <ImageBackground source={SIGNUP_BACKGROUND} style={styles.image}>
+        <Text style={styles.title}>Signup</Text>
+        <Form style={styles.form}>
+          <Item style={styles.input}>
+            <Input
+              name="email"
+              value={email}
+              placeholder="Email"
+              onChangeText={text => {
+                setEmail(text);
+              }}
+            />
+          </Item>
+          <Item style={styles.input}>
+            <Input
+              secureTextEntry={true}
+              value={password}
+              name="password"
+              placeholder="Password"
+              onChangeText={text => {
+                setPassword(text);
+              }}
+            />
+          </Item>
+          <Item style={styles.input}>
+            <Input
+              secureTextEntry={true}
+              name="cPassword"
+              value={cPassword}
+              placeholder="Confirm password"
+              onChangeText={text => {
+                setCPassword(text);
+              }}
+            />
+          </Item>
 
-            <Button
-              style={styles.button}
-              rounded
-              success
-              onPress={handleSubmit}
+          <Text style={[styles.text, styles.margin]}>
+            <Text
+              style={styles.link}
+              onPress={() => navigation.navigate("Terms")}
             >
-              <Text style={styles.buttonText}>Go</Text>
-            </Button>
-          </Form>
-        </ImageBackground>
-      </View>
-    );
-  } else {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+              Terms and service
+            </Text>
+          </Text>
+
+          <Text style={styles.text}>
+            Already have an account?{" "}
+            <Text style={styles.link} onPress={() => navigation.goBack()}>
+              Signin
+            </Text>
+          </Text>
+
+          <Button style={styles.button} rounded success onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Go</Text>
+          </Button>
+        </Form>
+      </ImageBackground>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -164,6 +160,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: COLORS.WHITE,
+    fontWeight: "bold"
+  },
+  error: {
+    color: "red",
     fontWeight: "bold"
   }
 });

@@ -7,7 +7,8 @@ import {
   Alert,
   Dimensions
 } from "react-native";
-import { SIGNUP_BACKGROUND } from "../../constants";
+
+import { SIGNIN_BACKGROUND } from "../../constants";
 import { Container, Content, Item, Input, Form, Button, H1 } from "native-base";
 import { COLORS } from "../../constants";
 import { useDispatch } from "react-redux";
@@ -23,6 +24,7 @@ const Signin = ({ navigation }) => {
   var error = useSelector(userSelectors.selectUserErr);
   const [submit, setSubmit] = useState(false);
   const [displayError, setDisplayError] = useState(false);
+  const userLoading = useSelector(userSelectors.selectUserLoading);
 
   const handleSubmit = useCallback(async () => {
     if (email && password) {
@@ -43,6 +45,8 @@ const Signin = ({ navigation }) => {
       setDisplayError(false);
     }
     if (isAuthenticated) {
+      setEmail("");
+      setPassword("");
       navigation.navigate("Home");
     }
   }, [dispatch, submit]);
@@ -51,13 +55,14 @@ const Signin = ({ navigation }) => {
     <View style={styles.container}>
       <ImageBackground
         style={styles.image}
-        source={SIGNUP_BACKGROUND}
+        source={SIGNIN_BACKGROUND}
         style={styles.image}
       >
         <Text style={styles.title}>Sign in</Text>
         <Form style={styles.form}>
           <Item style={styles.input}>
             <Input
+              value={email}
               name="email"
               placeholder="Email"
               onChangeText={text => {
@@ -67,6 +72,7 @@ const Signin = ({ navigation }) => {
           </Item>
           <Item style={styles.input}>
             <Input
+              value={password}
               secureTextEntry={true}
               name="password"
               placeholder="Password"

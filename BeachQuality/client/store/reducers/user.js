@@ -2,6 +2,7 @@ import { userActionTypes } from "../actions/types";
 const {
   REGISTER_USER,
   REGISTER_USER_FAILED,
+  REGISTER_USER_SUCCESS,
   SET_USER_LOCATION,
   TOGGLE_LOCATION,
   LOGIN_USER,
@@ -32,7 +33,6 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, action) => {
-  console.log(action.type);
   switch (action.type) {
     // Register
     case REGISTER_USER: {
@@ -43,14 +43,22 @@ const userReducer = (state = initialState, action) => {
     }
 
     case REGISTER_USER_FAILED: {
-      console.log(action.payload);
       return {
         ...state,
         userLoading: false,
         err: action.payload
       };
     }
-
+    case REGISTER_USER_SUCCESS: {
+      return {
+        ...state,
+        authListener: action.payload,
+        account: action.payload.data.account,
+        userLoading: false,
+        isAuthenticated: true,
+        err: null
+      };
+    }
     case SET_USER_LOCATION: {
       return {
         ...state,
