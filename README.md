@@ -1,5 +1,6 @@
-# Semester Project Team2: Beach Quality Report
 (Para la versión en español, desplazarse hacia el fin de la versión en inglés.)
+
+# Semester Project Team2: Beach Quality Report
 As part of the INSO4101 class of UPRM, the class was assigned the task of creating and developing an application that applies the software development topics discussed throughout the semester. The Beach Quality Report application was created with the purpose of informing a user about the quality of any given beach in Puerto Rico. Moreover, our application was created with the safety and health of the locals, tourists, and whoever may desire to visit our beaches, in mind; by providing them an accessible and versatile mobile application.
 
 ## Before Starting
@@ -103,7 +104,7 @@ Here in this menu, all of the beaches that you have marked as favorite will be d
 In this menu,  you can change the language of the application to whichever one is best for you. You have options to toggle notifications on or off, toggle GPS (Location Service) on or off, as well as enabling darkmode, if you prefer the dark side. The changes in the settings will be automatically stored for the next time you use the app.
 
 ### The About Menu
-This page will display an overall description of the application’s features and uses.It will also show the objectives of why the app was created and it will have acknowledgements of the developers/ contributors. As stated above, this app is part of the INSO4101 class of the University of Puerto Rico, better to be specified as Introduction to Software Engineering. The BQR app provides users with current information about the chosen beach’s water quality. With this information, users can stay safe and avoid getting sick by water contamination.The app allows them to look for alternative beaches if their chosen beach currently has a bad quality rating. It helps to learn more about the beaches nearest to them and  by informing them, it contributes to their enjoyment at the beach. 
+This page will display an overall description of the application’s features and uses.It will also show the objectives of why the app was created and it will have acknowledgements of the developers/ contributors. As stated above, this app is part of the INSO4101 class of the University of Puerto Rico, better to be specified as Introduction to Software Engineering. The BQR app provides users with current information about the chosen beach’s water quality. With this information, users can stay safe and avoid getting sick by water contamination.The app allows them to look for alternative beaches if their chosen beach currently has a bad quality rating. It helps to learn Lastly, the app provides the user with more information about more about the beaches nearest to them and  by informing them, it  by doing so contributes to improve their over all satisfactionenjoyment at  theof a given beach. 
 
 ## API 
 The Beach Quality Report API contains several basic routes to provide a template structure to create future API calls.  Some API calls will provide you with fundamental information from the database.
@@ -130,6 +131,12 @@ The Beach Quality Report API contains several basic routes to provide a template
 
 `/api/user/:userID` - **Post** new information for the specific user using the userID. Return error if the user does not exist in the Database.
 
+`/api/user/login` - **Post** what the user go wrong when trying to login(email/password), if thing is incorrect then it generates a token.
+
+`/api/user/:userID/:beachID` - **Updates** a user’s list of favorite beaches by verifying if the current input beach is in the list, if so then it is removed. 
+
+`/api/user/:userID/:beachID` - **Updates** a user’s list of favorite beaches by verifying if the current input beach is in the list, if not then it is added. 
+
 
 # Proyecto Semestral Equipo 2: “Beach Quality Report” 
 Como parte de la clase de Introducción a Ingeniería de Software (INSO 4101) en la UPRM, desarrollamos una aplicación que aplicará los conceptos discutidos en clase. La aplicación tiene como propósito proveer a los usuarios el estatus de calidad de la playas de Puerto Rico. Por la salud y seguridad de los que deseen disfrutar de nuestras playas, tanto de los puertorriqueños como los turistas que nos visitan, es importante para nosotros que se les provean medios accesibles por los cuales informarse.
@@ -143,9 +150,16 @@ Recomendamos que instale la version mas actualizada de Ubuntu LTS usando el sigu
 `$ node --version` or ‘$node -v’.
 ```
 
-Para ‘yarn’ entre el comando a continuación o si no lo tiene instálelo usando el enlace https://classic.yarnpkg.com/en/docs/install/#windows-stable; si ha instalado herramientas adicionales que ‘Node.js’ provee, como chocolatey, corra el comando ‘$choco install yarn’ en el terminal de su computadora. or if you downloaded the additional tools that Node.js provide (chocolatey) you can run the following command on the terminal ‘$choco install yarn’. Para verificar la versión de ‘yarn’ instalado use uno de los siguientes comandos:
+Para ‘yarn’ entre el comando a continuación o si no lo tiene instálelo usando el enlace https://classic.yarnpkg.com/en/docs/install/#windows-stable; si ha instalado herramientas adicionales que ‘Node.js’ provee, como chocolatey, corra el comando ‘$choco install yarn’ en el terminal de su computadora. O si ya tiene instalado herramientas adicionales que provee “Node.js” comoor if you downloaded the additional tools that Node.js provide  (“chocolatey)” puede correr el siguiente comando en el terminal:
+you can run the following command on the terminal 
+```
+‘$choco install yarn’. 
+```
+
+Para verificar la versión de ‘yarn’ instalado use uno de los siguientes comandos:
 ```
 ‘$ yarn --version’ or ‘$yarn -v’
+
 ```
 
 Asegúrese de también descargar la versión más actualizada de ‘Expo’. Al descargar ‘node.js’ este viene con ‘npm’ y con esto puedes descargar ‘expo’ desde el terminal usando los siguientes comandos: 
@@ -193,7 +207,7 @@ Empecemos por explicar los “running scripts” que la aplicación contiene. Pa
 $ yarn start
 ```
 
-Para solo correr el servidor y el “database”To only run the server and database, escriba en el terminal lo siguiente:
+Para solo correr el servidor y la base de datos, escriba en el terminal lo siguiente:
 ```
 $ yarn app
 ```
@@ -204,7 +218,7 @@ $ yarn client
 ```
 
 ## Axios
-Axios is promise-based and thus we can take advantage of async and await for more readable asynchronous code.
+Axios es basado en “promise” lo cual es un objeto de javascript que representa la terminación o el fracaso eventual de una operación asincrónica. Esto nos permite tomar como ventaja “async” y “await” para tener un código asincrónico más legible.
 
 Cuando llamamos a **GET REQUEST** en su “Component”necesita tener la siguiente estructura sintáctica para funcionar.  
 ```javascript
@@ -226,7 +240,7 @@ The IP Address in this case is **127.0.0.10** and the port is **19000**.
 
 You can change your IP_ADDRESS on the `client/constants/index.js`.
 
-Posteriormente, asegúrese de que tiene ‘expo’ instalado en su teléfono móvil escanear el ‘QR code’ que se genera. Esto le tomará unos minutos a su teléfono, no se alarme, deje que corre y eventualmente el “Beach Quality” app abrira.
+Posteriormente, asegúrese de que tiene ‘expo’ instalado en su teléfono móvil y de escanear el ‘QR code’ que se genera. Esto le tomará unos minutos a su teléfono, no se alarme, deje que corre y eventualmente el “Beach Quality” app abrira.
 
 ## La Aplicación
 Después de completar los pasos previos, subira el “sign up page” o pagina de registro. ![alttext](https://github.com/uprm-inso-4101-2019-2020-S2/semester-project-team2/tree/master/BeachQuality/client/assets/BQR_SIGNUP.jpg "Sign Up Page")
@@ -249,27 +263,33 @@ En este menú podrá cambiar el lenguaje a su preferencia. Tendrá incluso la op
 Esta página mostrará una descripción general de las funciones y usos de la aplicación. También mostrará los objetivos de por qué se creó la aplicación y tendrá un reconocimiento de los desarrolladores / colaboradores de la misma. Como se indicó anteriormente, esta aplicación es parte de la clase INSO4101 de la Universidad de Puerto Rico, específicamente, el curso de Introducción a la Ingeniería del Software. La aplicación BQR proporciona a los usuarios información actualizada sobre la calidad del agua de la playa elegida. Con esta información, los usuarios pueden mantenerse seguros y evitar enfermarse por la contaminación del agua. La aplicación les permite buscar playas alternativas si su playa elegida tiene actualmente una calificación de mala calidad. Ayuda a aprender más sobre las playas más cercanas a ellos e informarles contribuye a su disfrute en la playa.
 
 ## API 
-El API de Beach Quality Report contiene rutas básicas que proveen una estructura para futuros “llamados” o “calls” del API. Estos proveen información fundamental del “database”.
+El API de Beach Quality Report contiene rutas básicas que proveen una estructura para futuros “llamados” o “calls” del API. Estos proveen información fundamental de la base de datos.
 
 #### Beach API Calls
-`/api/beach` - **Devuelve** todas las Playas registradas en el “Database”.
+`/api/beach` - **Devuelve** todas las Playas registradas en la base de datos.
 
 `/api/beach/:beachID` - **Devuelve** la Playa a la cual el beachID le corresponde. Si no existe, retorna un mensaje de error.
 
-`/api/beach/addBeach` - **Crea** y **Anade** una Playa nueva al Database.
+`/api/beach/addBeach` - **Crea** y **Añade** una Playa nueva a la base de datos.
 
 `/api/beach/:beachID` - **Actualiza** una Playa que ya esta registrada, de lo contrario devuelve un error.
 
-`/api/beach/deleteBeach/:beachID` - **Elimina** una existente Playa en el Database. Si no esta registrada devuelve un error.
+`/api/beach/deleteBeach/:beachID` - **Elimina** una existente Playa en la base de datos. Si no está registrada devuelve un error.
 
-`/api/beach/fetchWeeklyUpdate` - **Devuelve** la data recopilada más reciente y la compara con la data de las playas en el “database”, si la data de alguna de las Playas no es igual, las mismas son actualizadas.
+`/api/beach/fetchWeeklyUpdate` - **Devuelve** la data recopilada más reciente y la compara con la data de las playas en la base de datos, si la data de alguna de las Playas no es igual, las mismas son actualizadas.
 
 #### User API Calls
-`/api/user` - **Devuelve** todos los usuarios actualmente registrados al “Database”.
+`/api/user` - **Devuelve** todos los usuarios actualmente registrados en la base de datos.
 
-`/api/user/:userID` - **Devuelve** el usuario al cual le pertenece el userID registrado en el Database.
+`/api/user/:userID` - **Devuelve** el usuario al cual le pertenece el userID registrado en la base de datos.
 
 `/api/user/register` - **Actualiza y Devuelve**  la información de un usuario nuevo y verifica que el “password” que sea el que está registrado bajo el usuario (Esto se hace por medio del método “isValid”).
 
-`/api/user/:userID` - **Actualiza** información nueva de un usuario usando el userID. **Devuelve** error si el usuario no existe en el “Database”.
+`/api/user/:userID` - **Actualiza** información nueva de un usuario usando el userID. **Devuelve** error si el usuario no existe en la base de datos.
+
+`/api/user/login` - **Devuelve** que el usuario sometió credenciales erróneos al momento de empezar la sesión (correo electrónico/contraseña), si es incorrecto genera un “token”.
+
+`/api/user/:userID/:beachID` - **Actualiza** la lista de favoritos del usuario verificando si la Playa existe en la lista y, de ser así, la remueve.
+
+`/api/user/:userID/:beachID` - **Actualiza** la lista de favoritos del usuario verificando si la Playa existe en la lista y, de no ser así, la remueve la añade. 
 
