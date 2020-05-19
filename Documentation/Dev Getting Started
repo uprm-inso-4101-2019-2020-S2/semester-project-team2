@@ -1,0 +1,33 @@
+### Setting up for project development: (Linux)
+
+install yarn (https://classic.yarnpkg.com/en/docs/install/#debian-stable)
+sudo apt install npm
+sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+npm install -g expo-cli
+Clone https of the project and import into atom
+Fetch and pull, create a new branch
+Inside atom open terminal and:
+cd BeachQuality
+yarn install
+yarn client-install
+yarn start
+
+### Setting up for project development: (Windows)
+
+Install Atom (-insert other options people have used-)https://atom.io/
+Install yarn (v12.16.3) https://classic.yarnpkg.com/en/docs/install/#windows-stable
+Install node.js(1.22.4) https://nodejs.org/en/
+Install expo (3.20.3) npm install expo-cli --global
+Clone https of the project and import into atom
+Fetch and pull, create a new branch
+Go to your Command Prompt and type:  ipconfig
+After pressing enter look for your IP address, copy it
+In the project go int BeachQuality>client>constants>index.js
+Substitute the IP address in line to with yours
+Inside atom open terminal and:
+cd BeachQuality
+yarn install
+yarn client-install
+yarn start
+
