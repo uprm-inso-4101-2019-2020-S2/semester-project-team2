@@ -30,7 +30,7 @@
     "react-redux": "^7.2.0",
     "request": "^2.88.2",
     "underscore": "^1.10.2",
-    "validator": "^13.0.0"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "client-install": "yarn install --prefix client",
